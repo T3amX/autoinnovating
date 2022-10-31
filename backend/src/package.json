@@ -1,0 +1,23 @@
+{
+  "name": "aut-backend",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "nodemon index",
+    "start": "node index",
+    "predocker": "npm ci --production && npm run build",
+    "docker": "docker build -t t3amx/$npm_package_name:$npm_package_version ..",
+    "postdocker": "docker push t3amx/$npm_package_name:$npm_package_version"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/T3amX/autoinnovating.git"
+  },
+  "author": "zeph1rr",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/T3amX/autoinnovating/issues"
+  },
+  "homepage": "https://github.com/T3amX/autoinnovating#readme"
+}

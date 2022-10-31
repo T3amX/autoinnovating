@@ -1,0 +1,22 @@
+name: BuildAndPushDockerImages
+
+on:
+  push:
+    branches: [master]
+
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check-out repository
+        uses: actions/checkout@v2
+
+      - name: Login into docker hub
+        run: docker login -u ${{secrets.DOCKER_HUB_LOGIN}} -p ${{secrets.DOCKER_HUB_PASS}}
+
+      - name: Build and push client
+        run: cd frontend && npm run docker
+
+      - name: Build and push server
+        run: cd backend && npm run docker
