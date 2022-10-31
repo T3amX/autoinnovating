@@ -6,7 +6,7 @@
   "scripts": {
     "test": "nodemon index",
     "start": "node index",
-    "predocker": "npm ci --production && npm run build",
+    "predocker": "npm ci --production",
     "docker": "docker build -t t3amx/$npm_package_name:$npm_package_version ..",
     "postdocker": "docker push t3amx/$npm_package_name:$npm_package_version"
   },
