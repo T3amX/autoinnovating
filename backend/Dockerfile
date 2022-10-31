@@ -4,7 +4,7 @@ WORKDIR /app
 
 RUN mkdir -p /var/log/fssp
 
-COPY package*.json ./
+COPY src/package*.json ./
 
 RUN npm ci --production
 
