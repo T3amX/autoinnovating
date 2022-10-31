@@ -19,4 +19,4 @@ jobs:
         run: cd frontend && npm run docker
 
       - name: Build and push server
-        run: cd backend && npm run docker
+        run: cd ../backend && npm run docker
