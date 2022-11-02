@@ -11,9 +11,15 @@
     "postdocker": "docker push t3amx/$npm_package_name:$npm_package_version"
   },
   "dependencies": {
+    "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",
-    "express": "^4.18.2"
+    "express": "^4.18.2",
+    "express-validator": "^6.14.2",
+    "jsonwebtoken": "^8.5.1",
+    "pg": "^8.8.0",
+    "pg-hstore": "^2.3.4",
+    "sequelize": "^6.25.3"
   },
   "devDependencies": {
     "nodemon": "^2.0.20"
