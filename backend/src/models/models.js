@@ -6,7 +6,7 @@ const Credentials = sequelize.define('credentials', {
     email: {type: DataTypes.STRING, unique: true},
     login: {type: DataTypes.STRING, unique: true},
     password: {type: DataTypes.STRING},
-    isAdmin: {type: DataTypes.BOOLEAN}
+    is_admin: {type: DataTypes.BOOLEAN}
 })
 
 module.exports = {Credentials}
