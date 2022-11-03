@@ -14,7 +14,6 @@ const generateJWT = (payload) => {
 
 class CredentialsController {
     async getAll(req, res, next) {
-        console.log(req.user)
         if (!req.user.is_admin) {
             return next(ApiError.badRequest("Недостаточно прав"))
         }
@@ -47,7 +46,7 @@ class CredentialsController {
             }
             const hashedPassword = bcrypt.hashSync(password, 8)
             const user = await Credentials.create({email, password: hashedPassword, login, is_admin: false})
-            res.status(201).json({message: "Successfully registered", user})
+            res.status(201).json({message: "Successfully registered"})
         } catch (e) {
             console.log(e)
             return next(ApiError.internal("Неизвестная ошибка"))
@@ -79,43 +78,44 @@ class CredentialsController {
     }
 
     async delete(req, res, next) {
-        next(ApiError.notFound("Not implemented"))
-        // const {id} = req.params
-        // if (req.user.role !== 1 && req.user.id !== Number(id)) {
-        //     return next(ApiError.badRequest("Недостаточно прав"))
-        // }
-        // const user = await Users.findOne({where: {id}})
-        // if (!user) {
-        //     return next(ApiError.badRequest("Такого пользователя не существует"))
-        // }
-        // const deleted = await Users.destroy({where: {id}})
-        // res.json({deleted})
+        const {id} = req.params
+        if (!req.user.is_admin && req.user.id !== Number(id)) {
+            return next(ApiError.badRequest("Недостаточно прав"))
+        }
+        const user = await Credentials.findOne({where: {id}})
+        if (!user) {
+            return next(ApiError.badRequest("Такого пользователя не существует"))
+        }
+        const deleted = await Credentials.destroy({where: {id}})
+        res.json({deleted})
     }
 
     async update(req, res, next) {
-        next(ApiError.notFound("Not implemented"))
-    //     try {
-    //         const {id} = req.params
-    //         if (Number(id) !== req.user.id && req.user.role !== 1) {
-    //             return next(ApiError.badRequest("Недостаточно прав"))
-    //         }
-    //         const data = req.body
-    //         if ("password" in data) {
-    //             const user = await Users.findByPk(id)
-    //             if (await bcrypt.compareSync(data.password, user.password)) {
-    //                 return res.status(400).json({message: "Невозможно сменить пароль на текущий"})
-    //             }
-    //             data.password = await bcrypt.hashSync(data.password, 8)
-    //         }
-    //         const updated = await Users.update({...data}, {where: {id}})
-    //         if (updated) {
-    //             res.json({message: "Данные успешно обновлены"})
-    //         } else {
-    //             next(ApiError.internal("Неизвестная ошибка"))
-    //         }
-    //     } catch (e) {
-    //         next(ApiError.internal("Неизвестная ошибка"))
-    //     }
+        try {
+            const {id} = req.params
+            if (Number(id) !== req.user.id && !req.user.is_admin) {
+                return next(ApiError.badRequest("Недостаточно прав"))
+            }
+            const data = req.body
+            if ("is_admin" in data) {
+                return next(ApiError.badRequest("Недостаточно прав"))
+            }
+            if ("password" in data) {
+                const user = await Credentials.findByPk(id)
+                if (await bcrypt.compareSync(data.password, user.password)) {
+                    return res.status(400).json({message: "Невозможно сменить пароль на текущий"})
+                }
+                data.password = await bcrypt.hashSync(data.password, 8)
+            }
+            const updated = await Credentials.update({...data}, {where: {id}})
+            if (updated) {
+                res.json({message: "Данные успешно обновлены"})
+            } else {
+                next(ApiError.internal("Неизвестная ошибка"))
+            }
+        } catch (e) {
+            next(ApiError.internal("Неизвестная ошибка"))
+        }
     }
 }
 
