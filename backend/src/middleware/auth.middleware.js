@@ -1,5 +1,6 @@
 const ApiError = require('../error/ApiError')
 const jwt = require('jsonwebtoken')
+const {Credentials} = require('../models/models')
 
 module.exports = function (req, res, next) {
     try {
@@ -12,12 +13,18 @@ module.exports = function (req, res, next) {
         if (!accessToken) {
             return next(ApiError.notAuthorized())
         }
-        const userData = jwt.verify(accessToken, process.env.JWT_SECRET)
+        const userData = jwt.verify(accessToken, process.env.JWT_SECRET, {}, undefined)
         if (!userData) {
             return next(ApiError.notAuthorized())
         }
-        req.user = userData
-        next()
+        Credentials.findByPk(userData.id).then(user => {
+            if (user.is_disabled) {
+                return next(ApiError.badRequest("User is disabled"))
+            } else {
+                req.user = userData
+                next()
+            }
+        })
     } catch (e) {
         return next(ApiError.notAuthorized())
     }
