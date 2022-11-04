@@ -2,35 +2,40 @@ const ApiError = require('../error/ApiError')
 const {Credentials} = require('../models/models')
 const {validationResult} = require('express-validator')
 const bcrypt = require('bcryptjs')
-const jwt = require('jsonwebtoken')
 const {Op} = require("sequelize");
 
-const generateJWT = (payload) => {
-    return jwt.sign(payload,
-        process.env.JWT_SECRET,
-        {expiresIn: '7d'}
-    )
-}
+const {generateJWT, handleError} = require("./utils")
+
+
 
 class CredentialsController {
     async getAll(req, res, next) {
-        if (!req.user.is_admin) {
-            return next(ApiError.badRequest("Недостаточно прав"))
+        try {
+            if (!req.user.is_admin) {
+                return next(ApiError.badRequest("Недостаточно прав"))
+            }
+            const lines = await Credentials.findAll({order: ['id']})
+            res.json({lines})
+        } catch (e) {
+            handleError(e, next)
         }
-        const lines = await Credentials.findAll({order: ['id']})
-        res.json({lines})
     }
 
+
     async getOne(req, res, next) {
-        const {id} = req.params
-        if (!req.user.is_admin && req.user.id !== Number(id)) {
-            next(ApiError.badRequest('У вас недостаточно прав'))
+        try {
+            const {id} = req.params
+            if (!req.user.is_admin && req.user.id !== Number(id)) {
+                next(ApiError.badRequest('У вас недостаточно прав'))
+            }
+            const user = await Credentials.findOne({where: {id}})
+            if (!user) {
+                return next(ApiError.badRequest("Такого пользователя не существует"))
+            }
+            return res.json({user})
+        } catch (e) {
+            handleError(e, next)
         }
-        const user = await Credentials.findOne({where: {id}})
-        if (!user) {
-            return next(ApiError.badRequest("Такого пользователя не существует"))
-        }
-        return res.json({user})
     }
 
     async registration(req, res, next) {
@@ -48,8 +53,7 @@ class CredentialsController {
             const user = await Credentials.create({email, password: hashedPassword, login, is_admin: false})
             res.status(201).json({message: "Successfully registered"})
         } catch (e) {
-            console.log(e)
-            return next(ApiError.internal("Неизвестная ошибка"))
+            handleError(e, next)
         }
     }
 
@@ -65,6 +69,9 @@ class CredentialsController {
             if (!candidate) {
                 return next(ApiError.badRequest("Неккоректное имя пользователя или пароль"))
             }
+            if (candidate.is_disabled) {
+                return next(ApiError.badRequest("User disabled"))
+            }
             const isPair = bcrypt.compareSync(password, candidate.password)
             if (!isPair) {
                 return next(ApiError.badRequest("Неккоректное имя пользователя или пароль"))
@@ -72,22 +79,25 @@ class CredentialsController {
             const token = generateJWT({id: candidate.id, is_admin: candidate.is_admin})
             res.json({token})
         } catch (e) {
-            console.log(e)
-            return next(ApiError.internal("Неизвестная ошибка, попробуйте снова"))
+            handleError(e, next)
         }
     }
 
     async delete(req, res, next) {
-        const {id} = req.params
-        if (!req.user.is_admin && req.user.id !== Number(id)) {
-            return next(ApiError.badRequest("Недостаточно прав"))
+        try {
+            const {id} = req.params
+            if (!req.user.is_admin && req.user.id !== Number(id)) {
+                return next(ApiError.badRequest("Недостаточно прав"))
+            }
+            const user = await Credentials.findOne({where: {id}})
+            if (!user) {
+                return next(ApiError.badRequest("Такого пользователя не существует"))
+            }
+            const deleted = await Credentials.destroy({where: {id}})
+            res.json({deleted})
+        } catch (e) {
+            handleError(e, next)
         }
-        const user = await Credentials.findOne({where: {id}})
-        if (!user) {
-            return next(ApiError.badRequest("Такого пользователя не существует"))
-        }
-        const deleted = await Credentials.destroy({where: {id}})
-        res.json({deleted})
     }
 
     async update(req, res, next) {
@@ -114,7 +124,25 @@ class CredentialsController {
                 next(ApiError.internal("Неизвестная ошибка"))
             }
         } catch (e) {
-            next(ApiError.internal("Неизвестная ошибка"))
+            handleError(e, next)
+        }
+    }
+
+    async toggleBan(req, res, next) {
+        try {
+            const {id} = req.params
+            if (!req.user.is_admin) {
+                return next(ApiError.badRequest("Недостаточно прав"))
+            }
+            const candidate = await Credentials.findByPk(id)
+            if (!candidate) {
+                return next(ApiError.badRequest("Такого пользователя не существует"))
+            }
+            candidate.is_disabled = !candidate.is_disabled
+            await candidate.save()
+            return res.json({message: "ok"})
+        } catch (e) {
+            handleError(e, next)
         }
     }
 }
