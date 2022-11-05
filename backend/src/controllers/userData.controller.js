@@ -4,8 +4,6 @@ const {Op} = require("sequelize");
 
 const {handleError} = require("./utils")
 
-
-
 class UserDataController {
     async getAll(req, res, next) {
         try {

@@ -31,9 +31,34 @@ const UserData = sequelize.define('user_data', {
     inn: {type: DataTypes.STRING, notNull: false}
 })
 
+const Categories = sequelize.define('categories', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, unique: true}
+})
+
+const Ideas = sequelize.define('ideas', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    title: {type: DataTypes.STRING},
+    description: {type: DataTypes.STRING},
+    is_innovative: {type: DataTypes.BOOLEAN, defaultValue: false}
+})
+
 Credentials.hasOne(UserData, {
     onDelete: "CASCADE"
 })
 UserData.belongsTo(Credentials)
 
-module.exports = {Credentials, UserData}
+Credentials.hasMany(Ideas, {
+    onDelete: "CASCADE"
+})
+Ideas.belongsTo(Credentials)
+
+Categories.hasMany(Ideas, {
+    onDelete: "CASCADE"
+})
+Ideas.belongsTo(Credentials)
+
+Credentials.hasMany(Ideas)
+Ideas.belongsToMany(Credentials, {through: "project_user"})
+
+module.exports = {Credentials, UserData, Categories, Ideas}
