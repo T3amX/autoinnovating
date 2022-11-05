@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError')
-const {Ideas, ProjectUser} = require('../models/models')
+const {Ideas, ProjectUser, Credentials, UserData} = require('../models/models')
 
 
 
@@ -12,9 +12,31 @@ class IdeasController {
         try {
             const lines = await Ideas.findAll({
                 order: ['id'],
-                include: "project_user",
-                attributes: ["ideas.id", "title", "description", "credential.id"]
             })
+            res.json({lines})
+        } catch (e) {
+            handleError(e, next)
+        }
+    }
+
+    async get_participants(req, res, next) {
+        try {
+            const {id} = req.params
+            const participants = await ProjectUser.findAll({where: {ideaId: id}})
+            const lines = []
+            for (const participant of participants) {
+                const user = await Credentials.findOne({
+                    where: {id: participant.credentialId},
+                    include: [UserData],
+                    attributes: ["login"]
+                })
+                lines.push({
+                    id: user.user_datum.credentialId,
+                    nickname: user.login,
+                    role: user.user_datum.role,
+                    info: user.user_datum.info
+                })
+            }
             res.json({lines})
         } catch (e) {
             handleError(e, next)
@@ -97,10 +119,19 @@ class IdeasController {
     }
 
     async add_user(req, res, next) {
-        const {id} = req.params
-        const {userId} = req.body
-        await ProjectUser.create({ideaId: id, credentialId: userId})
-        res.json({message: "successfully added"})
+        try {
+            const {id} = req.params
+            const {userId} = req.body
+            const idea = await Ideas.findByPk(id)
+            await ProjectUser.create({ideaId: id, credentialId: userId})
+            if (!idea.is_project) {
+                idea.is_project = true
+                await idea.save()
+            }
+            res.json({message: "successfully added"})
+        } catch (e) {
+            handleError(e, next)
+        }
     }
 }
 

@@ -40,7 +40,8 @@ const Ideas = sequelize.define('ideas', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
     title: {type: DataTypes.STRING},
     description: {type: DataTypes.STRING},
-    is_innovative: {type: DataTypes.BOOLEAN, defaultValue: false}
+    is_innovative: {type: DataTypes.BOOLEAN, defaultValue: false},
+    is_project: {type: DataTypes.BOOLEAN, defaultValue: false}
 })
 
 const ProjectUser = sequelize.define('project_user', {

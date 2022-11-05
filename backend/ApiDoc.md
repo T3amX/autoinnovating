@@ -7,3 +7,5 @@
 
 - [auth](documentation/auth.md)
 - [user_data](documentation/user_data.md)
+- [categories](documentation/catrgories.md)
+- [ideas](documentation/ideas.md)
