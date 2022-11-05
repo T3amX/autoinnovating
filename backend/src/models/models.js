@@ -10,4 +10,30 @@ const Credentials = sequelize.define('credentials', {
     is_disabled: {type: DataTypes.BOOLEAN, defaultValue: false}
 })
 
-module.exports = {Credentials}
+const UserData = sequelize.define('user_data', {
+    id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
+    name: {type: DataTypes.STRING, notNull: false},
+    sex: {type: DataTypes.CHAR(1), notNull: false},
+    birthdate: {type: DataTypes.DATE, notNull: false},
+    country: {type: DataTypes.STRING, notNull: false},
+    city: {type: DataTypes.STRING, notNull: false},
+    citizenship: {type: DataTypes.STRING, notNull: false},
+    telegram: {type: DataTypes.STRING, notNull: false},
+    github: {type: DataTypes.STRING, notNull: false},
+    phone: {type: DataTypes.CHAR(12), notNull: false},
+    vk: {type: DataTypes.STRING, notNull: false},
+    info: {type: DataTypes.TEXT, notNull: false},
+    has_command: {type: DataTypes.BOOLEAN, notNull: false},
+    role: {type: DataTypes.STRING, notNull: false},
+    has_patient: {type: DataTypes.BOOLEAN, notNull: false},
+    patient_info: {type: DataTypes.STRING, notNull: false},
+    has_entity: {type: DataTypes.BOOLEAN, notNull: false},
+    inn: {type: DataTypes.STRING, notNull: false}
+})
+
+Credentials.hasOne(UserData, {
+    onDelete: "CASCADE"
+})
+UserData.belongsTo(Credentials)
+
+module.exports = {Credentials, UserData}
