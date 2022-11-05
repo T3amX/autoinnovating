@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError')
-const {Credentials} = require('../models/models')
+const {Credentials, UserData} = require('../models/models')
 const {validationResult} = require('express-validator')
 const bcrypt = require('bcryptjs')
 const {Op} = require("sequelize");
@@ -51,6 +51,7 @@ class CredentialsController {
             }
             const hashedPassword = bcrypt.hashSync(password, 8)
             const user = await Credentials.create({email, password: hashedPassword, login, is_admin: false})
+            const info = await UserData.create({credentialId: user.id})
             res.status(201).json({message: "Successfully registered"})
         } catch (e) {
             handleError(e, next)
