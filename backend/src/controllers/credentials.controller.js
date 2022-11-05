@@ -14,7 +14,10 @@ class CredentialsController {
             if (!req.user.is_admin) {
                 return next(ApiError.badRequest("Недостаточно прав"))
             }
-            const lines = await Credentials.findAll({order: ['id']})
+            const lines = await Credentials.findAll({
+                attributes: ['id', 'email', 'login', 'is_admin', 'is_disabled'],
+                order: ['id']
+            })
             res.json({lines})
         } catch (e) {
             handleError(e, next)
@@ -28,7 +31,10 @@ class CredentialsController {
             if (!req.user.is_admin && req.user.id !== Number(id)) {
                 next(ApiError.badRequest('У вас недостаточно прав'))
             }
-            const user = await Credentials.findOne({where: {id}})
+            const user = await Credentials.findOne({
+                where: {id},
+                attributes: ['id', 'email', 'login', 'is_admin', 'is_disabled']
+            })
             if (!user) {
                 return next(ApiError.badRequest("Такого пользователя не существует"))
             }
@@ -45,7 +51,15 @@ class CredentialsController {
                 return next(ApiError.badRequest(errors))
             }
             const {email, password, login} = req.body
-            const candidate = await Credentials.findOne({where: {email}})
+            const candidate = await Credentials.findOne({
+                where: {
+                    [Op.or]: [
+                        {email},
+                        {login}
+                    ]
+                },
+                attributes: ['id']
+            })
             if (candidate) {
                 return next(ApiError.badRequest('Такой пользователь уже существует'))
             }
@@ -61,12 +75,7 @@ class CredentialsController {
     async login(req, res, next) {
         try {
             const {login, password} = req.body
-            const candidate = await Credentials.findOne({where: {
-                [Op.or]: [
-                    {email: login},
-                    {login}
-                ]
-            }})
+            const candidate = await Credentials.findOne({where: {login}})
             if (!candidate) {
                 return next(ApiError.badRequest("Неккоректное имя пользователя или пароль"))
             }

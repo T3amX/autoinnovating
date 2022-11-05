@@ -12,7 +12,9 @@ class UserDataController {
             if (!req.user.is_admin) {
                 return next(ApiError.badRequest("Недостаточно прав"))
             }
-            const lines = await UserData.findAll({order: ['id']})
+            const lines = await UserData.findAll({
+                order: ['id']
+            })
             res.json({lines})
         } catch (e) {
             handleError(e, next)

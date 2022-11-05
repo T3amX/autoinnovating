@@ -5,14 +5,122 @@
 Возвращает список анкет всех пользователей
 Требования:
 - Авторизованный администратор
+
 Ответ: Массив json объектов
+
+Пример ответа:
+```
+{
+    "lines": [
+        {
+            "id": 1,
+            "name": "Иванов Иван Ивнаович",
+            "sex": "м",
+            "birthdate": "2000-11-03T00:00:00.000Z",
+            "country": "Россия",
+            "city": "Москва",
+            "citizenship": "Россия",
+            "telegram": "@user1",
+            "github": "https://github.com/user1",
+            "phone": "+79123456789",
+            "vk": "https://vk.com/user1",
+            "info": "Я очень клевый, я люблю маму",
+            "has_command": true,
+            "role": "backend",
+            "has_patient": false,
+            "patient_info": null,
+            "has_entity": false,
+            "inn": "122312312323",
+            "createdAt": "2022-11-05T09:16:47.229Z",
+            "updatedAt": "2022-11-05T10:03:09.998Z",
+            "credentialId": 1
+        },
+        {
+            "id": 2,
+            "name": null,
+            "sex": null,
+            "birthdate": null,
+            "country": null,
+            "city": null,
+            "citizenship": null,
+            "telegram": null,
+            "github": null,
+            "phone": null,
+            "vk": null,
+            "info": null,
+            "has_command": null,
+            "role": null,
+            "has_patient": null,
+            "patient_info": null,
+            "has_entity": null,
+            "inn": null,
+            "createdAt": "2022-11-05T10:00:08.926Z",
+            "updatedAt": "2022-11-05T10:00:08.926Z",
+            "credentialId": 2
+        },
+        {
+            "id": 3,
+            "name": null,
+            "sex": null,
+            "birthdate": null,
+            "country": null,
+            "city": null,
+            "citizenship": null,
+            "telegram": null,
+            "github": null,
+            "phone": null,
+            "vk": null,
+            "info": null,
+            "has_command": null,
+            "role": null,
+            "has_patient": null,
+            "patient_info": null,
+            "has_entity": null,
+            "inn": null,
+            "createdAt": "2022-11-05T10:33:15.726Z",
+            "updatedAt": "2022-11-05T10:33:15.726Z",
+            "credentialId": 3
+        }
+    ]
+}
+```
 
 ## GET /:id
 
 Возвращает анкету одного пользователя
 Требования:
 - Авторизированный пользователь
+
 Ответ: json объект данных о пользователе
+
+Пример ответа:
+```
+{
+    "user": {
+        "id": 1,
+        "name": "Иванов Иван Ивнаович",
+        "sex": "м",
+        "birthdate": "2000-11-03T00:00:00.000Z",
+        "country": "Россия",
+        "city": "Москва",
+        "citizenship": "Россия",
+        "telegram": "@user1",
+        "github": "https://github.com/user1",
+        "phone": "+79123456789",
+        "vk": "https://vk.com/user1",
+        "info": "Я очень клевый, я люблю маму",
+        "has_command": true,
+        "role": "backend",
+        "has_patient": false,
+        "patient_info": null,
+        "has_entity": false,
+        "inn": "122312312323",
+        "createdAt": "2022-11-05T09:16:47.229Z",
+        "updatedAt": "2022-11-05T10:03:09.998Z",
+        "credentialId": 1
+    }
+}
+```
 
 
 ## update /:id
