@@ -1,8 +1,9 @@
 const Router = require('express')
 const router = new Router()
-const credentialsRouters = require("./credentials.router")
-const userDataRouters = require("./userData.router")
+const credentialsRouter = require("./credentials.router")
+const userDataRouter = require("./userData.router")
 const categoriesRouter = require("./categories.router")
+const ideasRouter = require("./ideas.router")
 
 router.get("/",
     (req, res) =>
@@ -10,8 +11,9 @@ router.get("/",
         res.json({status: "ok!"})
     }
 )
-router.use('/auth', credentialsRouters)
-router.use('/user_data', userDataRouters)
+router.use('/auth', credentialsRouter)
+router.use('/user_data', userDataRouter)
 router.use('/categories', categoriesRouter)
+router.use('/ideas', ideasRouter)
 
 module.exports = router

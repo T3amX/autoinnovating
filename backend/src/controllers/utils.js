@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken");
 const ApiError = require("../error/ApiError");
+const logger = require("../middleware/logger")
 
 const generateJWT = (payload) => {
     return jwt.sign(payload,

@@ -8,9 +8,6 @@ const {handleError} = require("./utils")
 class CategoriesController {
     async getAll(req, res, next) {
         try {
-            if (!req.user.is_admin) {
-                return next(ApiError.badRequest("Недостаточно прав"))
-            }
             const lines = await Categories.findAll({
                 order: ['name']
             })

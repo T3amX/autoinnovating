@@ -43,6 +43,11 @@ const Ideas = sequelize.define('ideas', {
     is_innovative: {type: DataTypes.BOOLEAN, defaultValue: false}
 })
 
+const ProjectUser = sequelize.define('project_user', {
+    ideaId: {type: DataTypes.INTEGER, primaryKey: true},
+    credentialId: {type: DataTypes.INTEGER, primaryKey: true}
+})
+
 Credentials.hasOne(UserData, {
     onDelete: "CASCADE"
 })
@@ -59,6 +64,6 @@ Categories.hasMany(Ideas, {
 Ideas.belongsTo(Credentials)
 
 Credentials.hasMany(Ideas)
-Ideas.belongsToMany(Credentials, {through: "project_user"})
+Ideas.belongsToMany(Credentials, {through: ProjectUser})
 
-module.exports = {Credentials, UserData, Categories, Ideas}
+module.exports = {Credentials, UserData, Categories, Ideas, ProjectUser}
