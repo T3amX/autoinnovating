@@ -1,9 +1,9 @@
 const ApiError = require('../error/ApiError')
-const {Ideas, ProjectUser, Credentials, UserData} = require('../models/models')
+const {Ideas, ProjectUser, Credentials, UserData, Categories} = require('../models/models')
 
 
 
-const {handleError} = require("./utils")
+const {handleError, checkStringIsValid} = require("./utils")
 
 
 
@@ -66,12 +66,19 @@ class IdeasController {
                 where: { title },
                 attributes: ['id']
             })
+            if (!checkStringIsValid(title)) {
+                next(ApiError.badRequest("Некорректное название"))
+            }
             if (candidate) {
                 return next(ApiError.badRequest('Такая идея уже существует'))
             }
-            await Ideas.create({title, description, categoryId, credentialId: req.user.id})
+            const category = Categories.findByPk(categoryId)
+            if (!category) {
+                next(ApiError.badRequest("Категории не существует"))
+            }
+            const idea = await Ideas.create({title, description, categoryId, credentialId: req.user.id})
 
-            res.status(201).json({message: "Successfully created"})
+            res.status(201).json({message: "Successfully created", id: idea.id})
         } catch (e) {
             handleError(e, next)
         }
@@ -98,7 +105,17 @@ class IdeasController {
         try {
             const {id} = req.params
             const data = req.body
-            const idea = await Ideas.findOne({where: {id}})
+            if (data.title && !checkStringIsValid(data.title)) {
+                next(ApiError.badRequest("Некорректное название"))
+            }
+            const idea = await Ideas.findByPk(id)
+            if (!idea) {
+                return next(ApiError.badRequest("Такой идеи не существует"))
+            }
+            const category = Categories.findByPk(categoryId)
+            if (!category) {
+                next(ApiError.badRequest("Категории не существует"))
+            }
             if (
                 !req.user.is_admin && idea.credentialId !== req.user.id ||
                 "is_innovative" in data && !req.user.is_admin ||
@@ -126,6 +143,13 @@ class IdeasController {
             const {id} = req.params
             const {userId} = req.body
             const idea = await Ideas.findByPk(id)
+            if (!idea) {
+                next(ApiError.badRequest("Идеи не существует"))
+            }
+            const user = await Credentials.findByPk(userId)
+            if (!user || userId > 2147483647) {
+                next(ApiError.badRequest("Пользователя не существует"))
+            }
             const candidate = await ProjectUser.findOne(
                 {where: {
                     credentialId: userId,

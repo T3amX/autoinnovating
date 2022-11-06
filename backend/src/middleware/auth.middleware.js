@@ -17,6 +17,9 @@ module.exports = function (req, res, next) {
         if (!userData) {
             return next(ApiError.notAuthorized())
         }
+        if (req.params.id > 2147483647) {
+            next(ApiError.badRequest("Некорректный id"))
+        }
         Credentials.findByPk(userData.id).then(user => {
             if (user.is_disabled) {
                 return next(ApiError.badRequest("User is disabled"))

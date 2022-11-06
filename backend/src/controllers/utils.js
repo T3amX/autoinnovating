@@ -14,4 +14,9 @@ const handleError = (error, next) => {
     return next(ApiError.internal(error.message))
 }
 
-module.exports = {generateJWT, handleError}
+const checkStringIsValid = (str) => {
+    return str.length <= 255;
+
+}
+
+module.exports = {generateJWT, handleError, checkStringIsValid}

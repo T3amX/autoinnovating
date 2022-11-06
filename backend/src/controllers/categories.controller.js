@@ -1,7 +1,7 @@
 const ApiError = require('../error/ApiError')
 const {Categories} = require('../models/models')
 
-const {handleError} = require("./utils")
+const {handleError, checkStringIsValid} = require("./utils")
 
 
 
@@ -39,16 +39,21 @@ class CategoriesController {
                 return next(ApiError.badRequest("Недостаточно прав"))
             }
             const {name} = req.body
+            let valid_name = name.toLowerCase().trim()
+            valid_name = valid_name[0].toUpperCase() + valid_name.substring(1)
+            if (!checkStringIsValid(valid_name)) {
+                next(ApiError.badRequest("Некорректное имя"))
+            }
             const candidate = await Categories.findOne({
-                where: { name },
+                where: { name: valid_name },
                 attributes: ['id']
             })
             if (candidate) {
                 return next(ApiError.badRequest('Такая категория уже существует'))
             }
-            await Categories.create({name})
+            const category = await Categories.create({name: valid_name})
 
-            res.status(201).json({message: "Successfully created"})
+            res.status(201).json({message: "Successfully created", id: category.id})
         } catch (e) {
             handleError(e, next)
         }
@@ -78,6 +83,18 @@ class CategoriesController {
                 return next(ApiError.badRequest("Недостаточно прав"))
             }
             const {name} = req.body
+            let valid_name = name.toLowerCase().trim()
+            valid_name = valid_name[0].toUpperCase() + valid_name.substring(1)
+            if (!checkStringIsValid(valid_name)) {
+                next(ApiError.badRequest("Некорректное имя"))
+            }
+            const anotherCandidate = await Categories.findOne({
+                where: { name: valid_name },
+                attributes: ['id']
+            })
+            if (anotherCandidate) {
+                return next(ApiError.badRequest('Такая категория уже существует'))
+            }
             const candidate = await Categories.findByPk(id)
             if (!candidate) {
                 next(ApiError.badRequest("Категории не существует"))

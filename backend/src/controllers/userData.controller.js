@@ -2,7 +2,7 @@ const ApiError = require('../error/ApiError')
 const {UserData} = require('../models/models')
 const {Op} = require("sequelize");
 
-const {handleError} = require("./utils")
+const {handleError, checkStringIsValid} = require("./utils")
 
 class UserDataController {
     async getAll(req, res, next) {
@@ -41,6 +41,14 @@ class UserDataController {
             }
             const data = req.body
             const candidate = await UserData.findByPk(id)
+            const fields = Object.keys(data)
+            fields.forEach(field => {
+                if (typeof data[field] === "string") {
+                    if (!checkStringIsValid(data[field])) {
+                        next(ApiError.badRequest("Некорректная длинна поля " + field))
+                    }
+                }
+            })
             if (!candidate) {
                 next(ApiError.badRequest("Пользователя не существует"))
             }
