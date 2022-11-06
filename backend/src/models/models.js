@@ -1,5 +1,5 @@
 const sequelize = require('../db')
-const {DataTypes} = require('sequelize')
+const {DataTypes, HasMany} = require('sequelize')
 
 const Credentials = sequelize.define('credentials', {
     id: {type: DataTypes.INTEGER, primaryKey: true, autoIncrement: true},
@@ -45,26 +45,28 @@ const Ideas = sequelize.define('ideas', {
 })
 
 const ProjectUser = sequelize.define('project_user', {
-    ideaId: {type: DataTypes.INTEGER, primaryKey: true},
-    credentialId: {type: DataTypes.INTEGER, primaryKey: true}
+    idea_id: {type: DataTypes.INTEGER, primaryKey: true},
+    credential_id: {type: DataTypes.INTEGER, primaryKey: true},
+    accepted: {type: DataTypes.BOOLEAN, defaultValue: false}
 })
 
 Credentials.hasOne(UserData, {
-    onDelete: "CASCADE"
+    onDelete: "CASCADE",
+    foreignKey: "credential_id"
 })
-UserData.belongsTo(Credentials)
 
 Credentials.hasMany(Ideas, {
-    onDelete: "CASCADE"
+    onDelete: "CASCADE",
+    foreignKey: "credential_id"
 })
-Ideas.belongsTo(Credentials)
 
 Categories.hasMany(Ideas, {
-    onDelete: "CASCADE"
+    onDelete: "CASCADE",
+    foreignKey: "category_id"
 })
-Ideas.belongsTo(Credentials)
 
-Credentials.hasMany(Ideas)
-Ideas.belongsToMany(Credentials, {through: ProjectUser})
+
+Credentials.belongsToMany(Ideas, {foreignKey: "credential_id", through: ProjectUser})
+Ideas.belongsToMany(Credentials, {foreignKey: "idea_id", through: ProjectUser})
 
 module.exports = {Credentials, UserData, Categories, Ideas, ProjectUser}

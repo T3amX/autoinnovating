@@ -132,18 +132,6 @@
 
 Ответ: json-объект с полем message со значение "Successfully created"
 
-## POST /add_user/:id
-Добавление пользователя в проект
-Требования:
-- Авторизованный администратор
-- json строка формата
-```
-{
-    "userId": 2
-}
-```
-Ответ: json объект с полем "message" со значением "successfully added"
-
 
 ## PUT /:id
 

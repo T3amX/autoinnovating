@@ -10,7 +10,7 @@ const {handleError, checkStringIsValid} = require("./utils")
 class IdeasController {
     async getAll(req, res, next) {
         try {
-            const {offset, limit} = req.body
+            const {offset, limit} = req.query
             const lines = await Ideas.findAll({
                 order: ['id'],
                 limit,
@@ -25,16 +25,20 @@ class IdeasController {
     async get_participants(req, res, next) {
         try {
             const {id} = req.params
-            const participants = await ProjectUser.findAll({where: {ideaId: id}})
+            const idea = await Ideas.findByPk(id)
+            if (!idea) {
+                next(ApiError.badRequest("Идеи не существует"))
+            }
+            const participants = await ProjectUser.findAll({where: {idea_id: id, accepted: true}})
             const lines = []
             for (const participant of participants) {
                 const user = await Credentials.findOne({
-                    where: {id: participant.credentialId},
+                    where: {id: participant.credential_id},
                     include: [UserData],
                     attributes: ["login"]
                 })
                 lines.push({
-                    id: user.user_datum.credentialId,
+                    id: user.user_datum.credential_id,
                     nickname: user.login,
                     role: user.user_datum.role,
                     info: user.user_datum.info
@@ -79,8 +83,8 @@ class IdeasController {
             if (!category) {
                 next(ApiError.badRequest("Категории не существует"))
             }
-            const idea = await Ideas.create({title, description, categoryId, credentialId: req.user.id})
-            await ProjectUser.create({ideaId: idea.id, credentialId: req.user.id})
+            const idea = await Ideas.create({title, description, category_id: categoryId, credential_id: req.user.id})
+            await ProjectUser.create({idea_id: idea.id, credential_id: req.user.id, accepted: true})
             res.status(201).json({message: "Successfully created", id: idea.id})
         } catch (e) {
             handleError(e, next)
@@ -97,7 +101,7 @@ class IdeasController {
         try {
             const {id} = req.params
             const idea = await Ideas.findOne({where: {id}})
-            if (!req.user.is_admin && idea.credentialId !== req.user.id) {
+            if (!req.user.is_admin && idea.credential_id !== req.user.id) {
                 return next(ApiError.badRequest("Недостаточно прав"))
             }
             if (!idea) {
@@ -126,9 +130,9 @@ class IdeasController {
                 next(ApiError.badRequest("Категории не существует"))
             }
             if (
-                !req.user.is_admin && idea.credentialId !== req.user.id ||
+                !req.user.is_admin && idea.credential_id !== req.user.id ||
                 "is_innovative" in data && !req.user.is_admin ||
-                "credentialId" in data
+                "credential_id" in data
             ) {
                 return next(ApiError.badRequest("Недостаточно прав"))
             }
@@ -142,37 +146,6 @@ class IdeasController {
             } else {
                 next(ApiError.internal("Неизвестная ошибка"))
             }
-        } catch (e) {
-            handleError(e, next)
-        }
-    }
-
-    async add_user(req, res, next) {
-        try {
-            const {id} = req.params
-            const {userId} = req.body
-            const idea = await Ideas.findByPk(id)
-            if (!idea) {
-                next(ApiError.badRequest("Идеи не существует"))
-            }
-            const user = await Credentials.findByPk(userId)
-            if (!user || userId > 2147483647) {
-                next(ApiError.badRequest("Пользователя не существует"))
-            }
-            const candidate = await ProjectUser.findOne(
-                {where: {
-                    credentialId: userId,
-                    ideaId: id
-                }})
-            if (candidate) {
-                next(ApiError.badRequest("Пользователь уже в команде"))
-            }
-            await ProjectUser.create({ideaId: id, credentialId: userId})
-            if (!idea.is_project) {
-                idea.is_project = true
-                await idea.save()
-            }
-            res.json({message: "successfully added"})
         } catch (e) {
             handleError(e, next)
         }

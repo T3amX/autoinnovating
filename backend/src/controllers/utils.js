@@ -10,6 +10,7 @@ const generateJWT = (payload) => {
 }
 
 const handleError = (error, next) => {
+    console.log(error)
     logger.Error({message: error.message})
     return next(ApiError.internal(error.message))
 }

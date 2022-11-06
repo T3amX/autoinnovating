@@ -65,7 +65,7 @@ class CredentialsController {
             }
             const hashedPassword = bcrypt.hashSync(password, 8)
             const user = await Credentials.create({email, password: hashedPassword, login, is_admin: false})
-            const info = await UserData.create({credentialId: user.id})
+            const info = await UserData.create({credential_id: user.id})
             res.status(201).json({message: "Successfully registered", id: user.id})
         } catch (e) {
             handleError(e, next)
