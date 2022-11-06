@@ -125,9 +125,12 @@ class IdeasController {
             if (!idea) {
                 return next(ApiError.badRequest("Такой идеи не существует"))
             }
-            const category = await Categories.findByPk(categoryId)
-            if (!category) {
-                next(ApiError.badRequest("Категории не существует"))
+            if (data.categoryId) {
+                const category = await Categories.findByPk(categoryId)
+                if (!category) {
+                    next(ApiError.badRequest("Категории не существует"))
+
+                }
             }
             if (
                 !req.user.is_admin && idea.credential_id !== req.user.id ||
@@ -135,10 +138,6 @@ class IdeasController {
                 "credential_id" in data
             ) {
                 return next(ApiError.badRequest("Недостаточно прав"))
-            }
-            const candidate = await Ideas.findByPk(id)
-            if (!candidate) {
-                next(ApiError.badRequest("Идеи/проекта не существует"))
             }
             const updated = await Ideas.update({...data}, {where: {id}})
             if (updated) {
