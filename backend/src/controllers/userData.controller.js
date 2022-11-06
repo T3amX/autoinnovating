@@ -1,5 +1,5 @@
 const ApiError = require('../error/ApiError')
-const {UserData} = require('../models/models')
+const {UserData, Credentials} = require('../models/models')
 const {Op} = require("sequelize");
 
 const {handleError, checkStringIsValid} = require("./utils")
@@ -28,6 +28,33 @@ class UserDataController {
                 return next(ApiError.badRequest("Такого пользователя не существует"))
             }
             return res.json({user})
+        } catch (e) {
+            handleError(e, next)
+        }
+    }
+
+    async search(req, res, next) {
+        try {
+            const users = await Credentials.findAll({
+                attributes: ["id", "login"],
+                order: ["id"],
+                include: [
+                    {
+                        model: UserData,
+                        attributes: ["role", "info"]
+                    }
+                ]
+            })
+            let lines = []
+            for (const user of users) {
+                lines.push({
+                    id: user.id,
+                    nickname: user.login,
+                    role: user.user_datum.role,
+                    info: user.user_datum.info
+                })
+            }
+            res.json({lines})
         } catch (e) {
             handleError(e, next)
         }

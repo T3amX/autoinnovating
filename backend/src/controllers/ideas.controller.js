@@ -29,12 +29,15 @@ class IdeasController {
             if (!idea) {
                 next(ApiError.badRequest("Идеи не существует"))
             }
-            const participants = await ProjectUser.findAll({where: {idea_id: id, accepted: true}})
+            const participants = await ProjectUser.findAll({where: {idea_id: id, accepted: true}, order: ["credential_id"]})
             const lines = []
             for (const participant of participants) {
                 const user = await Credentials.findOne({
                     where: {id: participant.credential_id},
-                    include: [UserData],
+                    include: [{
+                        model: UserData,
+                        attributes: ["credential_id", "role", "info"]
+                    }],
                     attributes: ["login"]
                 })
                 lines.push({

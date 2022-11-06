@@ -7,6 +7,7 @@ const loggingMiddleware = require("../middleware/logging.middleware")
 const requestValidator = require("../middleware/validateRequest.middleware")
 
 router.get('/', authMiddleware, loggingMiddleware, controller.getAll)
+router.get('/search', authMiddleware, loggingMiddleware, controller.search)
 router.get('/:id', authMiddleware, loggingMiddleware, requestValidator, controller.getOne)
 router.put('/:id', authMiddleware, loggingMiddleware, requestValidator, controller.update)
 
