@@ -7,6 +7,7 @@ const authMiddleware = require("../middleware/auth.middleware")
 
 
 router.get('/', authMiddleware, loggingMiddleware, controller.getAll)
+router.get('/pagination', authMiddleware, loggingMiddleware, controller.pagination)
 router.get('/:id', authMiddleware, loggingMiddleware, controller.getOne)
 router.get('/participants/:id', authMiddleware, loggingMiddleware, controller.get_participants)
 router.post('/', authMiddleware, loggingMiddleware, controller.create)

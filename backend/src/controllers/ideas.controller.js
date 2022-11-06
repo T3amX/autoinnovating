@@ -10,8 +10,11 @@ const {handleError, checkStringIsValid} = require("./utils")
 class IdeasController {
     async getAll(req, res, next) {
         try {
+            const {offset, limit} = req.body
             const lines = await Ideas.findAll({
                 order: ['id'],
+                limit,
+                offset
             })
             res.json({lines})
         } catch (e) {
@@ -72,16 +75,22 @@ class IdeasController {
             if (candidate) {
                 return next(ApiError.badRequest('Такая идея уже существует'))
             }
-            const category = Categories.findByPk(categoryId)
+            const category = await Categories.findByPk(categoryId)
             if (!category) {
                 next(ApiError.badRequest("Категории не существует"))
             }
             const idea = await Ideas.create({title, description, categoryId, credentialId: req.user.id})
-
+            await ProjectUser.create({ideaId: idea.id, credentialId: req.user.id})
             res.status(201).json({message: "Successfully created", id: idea.id})
         } catch (e) {
             handleError(e, next)
         }
+    }
+
+    async pagination(req, res) {
+        const {limit} = req.body
+        const ideas = await Ideas.findAll()
+        res.json({pages_count: Math.ceil(ideas.length / limit)})
     }
 
     async delete(req, res, next) {
@@ -112,7 +121,7 @@ class IdeasController {
             if (!idea) {
                 return next(ApiError.badRequest("Такой идеи не существует"))
             }
-            const category = Categories.findByPk(categoryId)
+            const category = await Categories.findByPk(categoryId)
             if (!category) {
                 next(ApiError.badRequest("Категории не существует"))
             }
