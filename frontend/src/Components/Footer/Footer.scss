@@ -1,0 +1,50 @@
+// THEME DARK
+html[data-theme="dark"] {
+  & .footer {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+
+    & .footer_content {
+      padding: 30px 0 30px 0;
+      & a {
+        margin-right: 50px;
+        font-weight: normal;
+        color: #000;
+        text-decoration: none;
+        font-size: 18px;
+
+        &:hover {
+          display: inline-block;
+          transform: scale(1.1);
+          transition: 0.1s;
+        }
+      }
+
+      & .language {
+        text-align: right;
+        & span {
+          font-size: 18px;
+          color: #000;
+
+          & button {
+            outline: none;
+            border: none;
+            background: none;
+
+            & .footer_arrow_down {
+              font-size: 16px;
+            }
+
+            &:hover {
+              transition: 0.3s;
+              color: red;
+            }
+          }
+        }
+      }
+    }
+  }
+}

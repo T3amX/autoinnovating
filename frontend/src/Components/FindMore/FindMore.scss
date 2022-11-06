@@ -1,0 +1,94 @@
+html[data-theme="dark"] {
+  & .find_more {
+    color: #fff;
+  }
+
+  & h1 {
+    font-weight: 500;
+  }
+
+  & span {
+    margin-left: 5px;
+    font-size: 18px;
+  }
+
+  & .search_bar {
+    & input {
+      padding: 5px 0 5px 10px;
+      outline: none;
+      border-radius: 15px;
+      margin-bottom: 10px;
+    }
+  }
+
+  & .search_button {
+    font-weight: 500;
+    border-radius: 15px;
+    border: 2px solid #00ffff;
+    padding: 10px 50px;
+
+    &:hover {
+      transition: 0.1s;
+      display: inline-block;
+      transform: scale(1.1);
+      background-color: #00ffff;
+    }
+  }
+
+  & .search_result {
+    margin-left: 0;
+    margin-top: 20px;
+
+    color: #000;
+
+    & .result_user_block {
+      margin-bottom: 10px;
+      margin-right: 10px;
+      padding: 10px 5px;
+      border-radius: 15px;
+      background-color: #fff;
+
+      & .login {
+        font-weight: 500;
+        font-size: 20px;
+        color: #000;
+      }
+
+      & .role {
+        font-style: italic;
+      }
+
+      & a {
+        text-decoration: none;
+        color: #000;
+        font-weight: bold;
+        font-size: 16px;
+
+        &:hover {
+          transition: .1s;
+          display: inline-block;
+          transform: scale(1.1);
+        }
+      }
+      
+    }
+
+    & span {
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    & .see_profile_button {
+      font-weight: 500;
+      padding: 10px 50px;
+      border-radius: 15px;
+      background-color: #00ffff;
+      border-color: #000;
+
+      &:hover {
+        transition: 0.1s;
+        margin-left: 10px;
+      }
+    }
+  }
+}

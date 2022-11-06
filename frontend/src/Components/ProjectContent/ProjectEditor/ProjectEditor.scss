@@ -1,0 +1,84 @@
+html[data-theme="dark"] {
+    & .project_editor {
+        & h1 {
+            color: #fff;
+            text-align: center;
+        }
+
+        & .edit_form {
+            margin-top: 20px;
+      
+            & .sumbit_profile_form_button {
+              margin-bottom: 10px;
+              text-decoration: none;
+              text-align: center;
+              width: 210px;
+              border: 2px solid #00ffff;
+              font-weight: medium;
+              color: #000;
+              background-color: #fff;
+              font-size: 20px;
+              letter-spacing: 1px;
+              padding: 10px;
+              outline: none;
+              border-radius: 100px;
+      
+              &:hover {
+                cursor: pointer;
+                display: inline-block;
+                transform: scale(1.1);
+                transition: 0.1s;
+                font-weight: 500;
+                background-color: #00ffff;
+              }
+            }
+      
+            & .edit_form_item {
+      
+              & .profile_form_desc {
+                margin-left: 10px;
+              }
+      
+              & .span_mini_description {
+                
+                color: red;
+              }
+      
+              margin-bottom: 5px;
+              & .span_mini {
+                font-size: 14px;
+              }
+      
+              & span {
+                font-size: 20px;
+                color: #fff;
+              }
+      
+              & .text_input {
+                padding: 5px 0 5px 10px;
+                outline: none;
+                border-radius: 15px;
+                margin-bottom: 10px;
+                width: 250px;
+              }
+
+              & .textarea_input {
+                width: 500px;
+                height: 150px;
+              }
+      
+              & .radio_input {
+                margin-bottom: 10px;
+              }
+      
+              & .profile_date {
+                margin-bottom: 10px;
+                padding: 5px 0 5px 10px;
+                width: 250px;
+                border-radius: 15px;
+                text-transform: uppercase;
+              }
+            }
+          }
+    }
+}

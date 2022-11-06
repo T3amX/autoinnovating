@@ -1,0 +1,69 @@
+// DARK THEME
+html[data-theme="dark"] {
+  & .header {
+    & img {
+      width: 100px;
+    }
+
+    & .menu_links {
+      & a {
+        font-weight: normal;
+        font-size: 18px;
+        color: #fff;
+        letter-spacing: 1px;
+        text-decoration: none;
+        margin-right: 50px;
+
+        &:hover {
+          color: #00ffff;
+          transition: 0.1s;
+        }
+
+        &:nth-last-child() {
+          margin-right: 0;
+        }
+      }
+    }
+
+    & .theme_switcher {
+      & button {
+        outline: none;
+        border: none;
+        background: none;
+
+        & img {
+          width: 16px;
+        }
+      }
+    }
+
+    & .login {
+      text-align: right;
+
+      & .logout {
+        &:hover {
+          cursor: pointer;
+        }
+      }
+
+      & span {
+        color: #fff;
+        font-weight: normal;
+        font-size: 16px;
+
+        & a {
+          text-decoration: none;
+          font-weight: normal;
+          font-size: 16px;
+          color: #fff;
+          letter-spacing: 1px;
+
+          &:hover {
+            transition: 0.1s;
+            color: #00ffff;
+          }
+        }
+      }
+    }
+  }
+}
