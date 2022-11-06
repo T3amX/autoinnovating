@@ -40,6 +40,10 @@ class UserDataController {
                 return next(ApiError.badRequest("Недостаточно прав"))
             }
             const data = req.body
+            const candidate = await UserData.findByPk(id)
+            if (!candidate) {
+                next(ApiError.badRequest("Пользователя не существует"))
+            }
             const updated = await UserData.update({...data}, {where: {id}})
             if (updated) {
                 res.json({message: "Данные успешно обновлены"})

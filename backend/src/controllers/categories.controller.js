@@ -78,7 +78,10 @@ class CategoriesController {
                 return next(ApiError.badRequest("Недостаточно прав"))
             }
             const {name} = req.body
-
+            const candidate = await Categories.findByPk(id)
+            if (!candidate) {
+                next(ApiError.badRequest("Категории не существует"))
+            }
             const updated = await Categories.update({name}, {where: {id}})
             if (updated) {
                 res.json({message: "Данные успешно обновлены"})

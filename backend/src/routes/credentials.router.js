@@ -10,6 +10,9 @@ router.post('/', [
     check('email', 'email не задан').notEmpty(),
     check('email', 'некорректный email').isEmail(),
     check('login', 'login не задан').notEmpty(),
+    check(['login', 'email', 'password'])
+        .custom(value => !/\s/.test(value))
+        .withMessage('No spaces are allowed'),
     check('password', 'Пароль должен содержать минимум 6 символов').isLength({min: 6})
 ], loggingMiddleware, controller.registration)
 router.post('/login', loggingMiddleware, controller.login)

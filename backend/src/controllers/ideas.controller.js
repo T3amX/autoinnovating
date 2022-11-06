@@ -106,7 +106,10 @@ class IdeasController {
             ) {
                 return next(ApiError.badRequest("Недостаточно прав"))
             }
-
+            const candidate = await Ideas.findByPk(id)
+            if (!candidate) {
+                next(ApiError.badRequest("Идеи/проекта не существует"))
+            }
             const updated = await Ideas.update({...data}, {where: {id}})
             if (updated) {
                 res.json({message: "Данные успешно обновлены"})
@@ -123,6 +126,14 @@ class IdeasController {
             const {id} = req.params
             const {userId} = req.body
             const idea = await Ideas.findByPk(id)
+            const candidate = await ProjectUser.findOne(
+                {where: {
+                    credentialId: userId,
+                    ideaId: id
+                }})
+            if (candidate) {
+                next(ApiError.badRequest("Пользователь уже в команде"))
+            }
             await ProjectUser.create({ideaId: id, credentialId: userId})
             if (!idea.is_project) {
                 idea.is_project = true

@@ -116,8 +116,12 @@ class CredentialsController {
             if (Number(id) !== req.user.id && !req.user.is_admin) {
                 return next(ApiError.badRequest("Недостаточно прав"))
             }
+            const candidate = await Credentials.findByPk(id)
+            if (!candidate) {
+                next(ApiError.badRequest("Пользователя не существует"))
+            }
             const data = req.body
-            if ("is_admin" in data) {
+            if ("is_admin" in data && !req.user.is_admin) {
                 return next(ApiError.badRequest("Недостаточно прав"))
             }
             if ("password" in data) {

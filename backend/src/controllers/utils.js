@@ -10,8 +10,8 @@ const generateJWT = (payload) => {
 }
 
 const handleError = (error, next) => {
-    logger.Error(error.message)
-    return next(ApiError.internal("Неизвестная ошибка"))
+    logger.Error({message: error.message})
+    return next(ApiError.internal(error.message))
 }
 
 module.exports = {generateJWT, handleError}
