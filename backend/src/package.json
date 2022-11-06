@@ -1,6 +1,6 @@
 {
   "name": "aut-backend",
-  "version": "0.0.7-SNAPSHOT",
+  "version": "1.0.0",
   "description": "",
   "main": "index.js",
   "scripts": {
