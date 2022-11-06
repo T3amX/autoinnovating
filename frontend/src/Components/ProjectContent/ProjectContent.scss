@@ -1,0 +1,122 @@
+html[data-theme="dark"] {
+  .project {
+    margin-left: 0;
+    margin-top: 20px;
+    & h1 {
+      font-weight: medium;
+      font-size: 36px;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+
+    & h5 {
+      font-size: 30px;
+      color: #fff;
+    }
+
+    & h2 {
+      font-size: 24px;
+      color: #fff;
+      font-weight: normal;
+    }
+
+    & p {
+      margin-left: 20px;
+      font-weight: normal;
+      font-size: 16px;
+      color: #fff;
+      margin-bottom: 15px;
+    }
+
+    & h4 {
+      color: #fff;
+      font-weight: normal;
+    }
+
+    & .project_profile {
+      & .project_profile_item {
+        margin-right: 10px;
+        border-radius: 15px;
+        padding: 20px;
+        background-color: #fff;
+        margin-bottom: 25px;
+
+        & span {
+          font-weight: 500;
+          font-size: 18px;
+        }
+
+        & p {
+          margin-top: 13px;
+          font-weight: medium;
+          color: #000;
+        }
+
+        & a {
+          display: inline-block;
+          margin: 0 auto;
+          text-decoration: none;
+          text-align: center;
+          width: 210px;
+          border: 2px solid #000;
+          font-weight: medium;
+          color: #000;
+          background-color: #00ffff;
+          font-size: 20px;
+          letter-spacing: 1px;
+          padding: 10px;
+          outline: none;
+          border-radius: 100px;
+
+          &:hover {
+            cursor: pointer;
+            display: inline-block;
+            transform: scale(1.1);
+            transition: 0.1s;
+            font-weight: 500;
+            background-color: #00ffff;
+          }
+        }
+      }
+    }
+
+    & .more_action {
+      & .delete_project {
+        text-align: right;
+
+        & span {
+          &:hover {
+            cursor: pointer;
+            color: red;
+          }
+        }
+
+        & a {
+          &:hover {
+            cursor: pointer;
+            color: red;
+          }
+        }
+      }
+
+      border: 2px solid #00ffff;
+      margin-left: 0;
+      padding: 10px 10px 10px 10px;
+      border-radius: 15px;
+      background-color: #fff;
+
+      & a {
+        text-decoration: none;
+        color: #000;
+        font-size: 20px;
+        border-radius: 15px;
+
+        &:hover {
+          font-weight: 500;
+          transition: 0.1s;
+          margin-left: 15px;
+        }
+      }
+    }
+  }
+}

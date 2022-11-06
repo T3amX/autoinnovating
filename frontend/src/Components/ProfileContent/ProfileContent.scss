@@ -1,0 +1,227 @@
+html[data-theme="dark"] {
+  .profile {
+    & h1 {
+      font-weight: medium;
+      font-size: 24px;
+      color: #fff;
+      margin-bottom: 2px;
+    }
+
+    & .profile_data_list {
+      list-style-type: none;
+      padding-left: 0;
+      font-weight: normal;
+      font-size: 14px;
+      color: #fff;
+      margin-left: 10px;
+      margin-bottom: 2px;
+    }
+    & h3 {
+      font-weight: normal;
+      font-size: 20px;
+      color: #fff;
+      margin-left: 0px;
+      margin-bottom: 20px;
+    }
+
+    & h4 {
+      font-size: 30px;
+      color: #fff;
+    }
+
+    & p {
+      color: #fff;
+      margin-left: 20px;
+    }
+
+    & .profile_my_team {
+      & span {
+        margin-left: 0;
+        font-size: 30px;
+        font-weight: 500;
+        color: #fff;
+
+        & .team_name {
+          color: #fff;
+          text-decoration: none;
+          font-weight: normal;
+          font-style: italic;
+          font-size: 24px;
+          color: #00ffff;
+
+          &:hover {
+            margin-left: 10px;
+            transition: 0.2s;
+          }
+        }
+      }
+    }
+
+    & .my_projects_ideas {
+      margin-top: 20px;
+
+      & a {
+        text-decoration: none;
+      }
+
+      & .my_projects {
+        margin-right: 50px;
+
+        & h5 {
+          font-size: 28px;
+          color: #fff;
+        }
+
+        & .my_projects_item {
+          & .new_button {
+            color: #000;
+            font-weight: bold;
+          }
+
+          border-radius: 10px;
+          padding: 5px;
+          background-color: #fff;
+          margin-bottom: 10px;
+          margin-left: 0;
+
+          & .my_projects_item_title {
+            font-weight: bold;
+            color: #000;
+          }
+
+          & .my_projects_item_desc {
+            font-style: italic;
+            font-size: 16px;
+            color: #000;
+          }
+
+          &:hover {
+            transition: 0.2s;
+            cursor: pointer;
+            padding-left: 3ch;
+          }
+        }
+      }
+
+      & .my_ideas {
+        & .my_ideas_item {
+          border-radius: 10px;
+          padding: 5px;
+          background-color: #fff;
+          margin-bottom: 10px;
+          margin-left: 0;
+
+          & span {
+            color: #000;
+          }
+
+          & .ideas_likes {
+            text-align: right;
+          }
+
+          &:hover {
+            transition: 0.2s;
+            cursor: pointer;
+            padding-left: 3ch;
+          }
+        }
+
+        & h5 {
+          font-size: 28px;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  & .redact {
+    margin-left: 50px;
+
+    & .admin_button {
+      margin-top: 50px;
+      & a {
+        text-decoration: none;
+        text-align: center;
+        width: 210px;
+        border: 2px solid #00ffff;
+        font-weight: medium;
+        color: #000;
+        background-color: #fff;
+        font-size: 20px;
+        letter-spacing: 1px;
+        padding: 10px;
+        outline: none;
+        border-radius: 100px;
+
+        &:hover {
+          margin-left: 10px;
+          cursor: pointer;
+          transition: 0.1s;
+          font-weight: 500;
+          background-color: #00ffff;
+        }
+      }
+    }
+
+    & .edit_button {
+      text-decoration: none;
+      text-align: center;
+      width: 210px;
+      border: 2px solid #00ffff;
+      font-weight: medium;
+      color: #000;
+      background-color: #fff;
+      font-size: 20px;
+      letter-spacing: 1px;
+      padding: 10px;
+      outline: none;
+      border-radius: 100px;
+
+      &:hover {
+        margin-left: 10px;
+        cursor: pointer;
+        transition: 0.1s;
+        font-weight: 500;
+        background-color: #00ffff;
+      }
+    }
+
+    & .my_contacts {
+      margin-top: 50px;
+
+      & .profile_contacts_list {
+        color: #fff;
+        list-style-type: none;
+        margin-bottom: 50px;
+
+        & li {
+          &:nth-child(1) {
+            margin-bottom: 5px;
+          }
+
+          margin-bottom: 15px;
+        }
+
+        & img {
+          margin-left: 20px;
+          width: 25px;
+        }
+
+        & a {
+          text-decoration: none;
+          color: #fff;
+          font-style: italic;
+
+          &:hover {
+            transition: 0.1s;
+            margin-left: 10px;
+          }
+        }
+
+        & .profile_contacts_list_header {
+          font-size: 24px;
+        }
+      }
+    }
+  }
+}

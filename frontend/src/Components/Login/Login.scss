@@ -1,0 +1,47 @@
+// DARK THEME
+html[data-theme="dark"] {
+  & .login_page {
+    padding-top: 42px;
+    color: #fff;
+
+    & .login_field {
+      margin-left: 52ch;
+    }
+
+    & h1 {
+      margin-bottom: 50px;
+      text-align: center;
+    }
+
+    & h2 {
+      margin-bottom: 0px;
+      font-weight: normal;
+      font-size: 20px;
+      margin-left: 5px;
+      padding: 0;
+    }
+
+    & input {
+      height: 40px;
+      margin-bottom: 25px;
+      width: 270px;
+      outline: none;
+      border-radius: 100px;
+    }
+
+    & button {
+      border-radius: 100px;
+      border: 2px solid #00ffff;
+      height: 50px;
+      width: 270px;
+
+      &:hover {
+        font-weight: 500;
+        display: inline-block;
+        transform: scale(1.1);
+        transition: 0.1s;
+        background-color: #00ffff;
+      }
+    }
+  }
+}

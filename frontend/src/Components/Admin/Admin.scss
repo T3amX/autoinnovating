@@ -1,0 +1,90 @@
+html[data-theme="dark"] {
+  & .admin {
+    padding-top: 25px;
+    & h1 {
+      text-align: center;
+      color: #fff;
+      margin-bottom: 30px;
+    }
+
+    & h2 {
+      margin-bottom: 30px;
+      font-weight: normal;
+      color: #fff;
+
+      & input {
+        padding-left: 5px;
+        outline: none;
+        font-size: 20px;
+      }
+
+    }
+
+    & h5 {
+      font-size: 20px;
+      margin-bottom: 30px;
+      color: #fff;
+
+      & input {
+        padding-top: 5px;
+        padding-bottom: 5px;
+        padding-left: 5px;
+        outline: none;
+        margin-left: 10px;
+        border-radius: 15px;
+        margin-right: 10px;
+      }
+
+      & button {
+        padding: 5px 10px;
+        outline: none;
+        border-radius: 15px;
+      }
+
+    }
+
+    & .site_users {
+      & .site_users_item {
+        border-radius: 10px;
+        padding: 5px;
+        background-color: #fff;
+        margin-bottom: 10px;
+        margin-left: 10px;
+
+        & .site_users_item_info {
+          & .site_users_item_title {
+            font-weight: bold;
+            color: #000;
+          }
+
+          & .site_users_item_desc {
+            font-style: italic;
+            font-size: 16px;
+            color: #000;
+          }
+        }
+
+        & .admin_user_menu_bar {
+          margin-top: 20px;
+
+          & .ban_button {
+            color: red;
+            font-size: 14px;
+          }
+
+          & span {
+            font-weight: bold;
+            font-size: 12px;
+
+            &:hover {
+              transition: 0.2s;
+              cursor: pointer;
+              display: inline-block;
+              transform: scale(1.1);
+            }
+          }
+        }
+      }
+    }
+  }
+}
