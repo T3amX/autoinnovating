@@ -126,7 +126,7 @@ class IdeasController {
                 return next(ApiError.badRequest("Такой идеи не существует"))
             }
             if (data.categoryId) {
-                const category = await Categories.findByPk(categoryId)
+                const category = await Categories.findByPk(data.categoryId)
                 if (!category) {
                     next(ApiError.badRequest("Категории не существует"))
 
