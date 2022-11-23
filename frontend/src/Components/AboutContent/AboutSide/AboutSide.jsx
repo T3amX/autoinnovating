@@ -2,17 +2,17 @@ import React, { useState } from "react";
 import './AboutSide.scss';
 
 const AboutSide = (props) => {
-  let [help, setHelp] = useState(false);
-  let [faq, setFaq] = useState(false);
-  let [rules, setRules] = useState(false);
+  let [help, ] = useState(true);
+  let [faq, ] = useState(true);
+  let [rules,] = useState(true);
 
   return (
     <div className="col-sm about_side">
       <div className="row">
         {help ? (
           <span>
-            <button onClick={() => setHelp(false)}>
-              Помощь <span>˄</span>
+            <button >
+              Помощь <span></span>
             </button>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
@@ -22,16 +22,16 @@ const AboutSide = (props) => {
             </p>
           </span>
         ) : (
-          <button onClick={() => setHelp(true)}>
-            Помощь <span>˅</span>
+          <button >
+            Помощь <span></span>
           </button>
         )}
       </div>
       <div className="row">
         {faq ? (
           <span>
-            <button onClick={() => setFaq(false)}>
-              FAQ <span>˄</span>
+            <button >
+              FAQ <span></span>
             </button>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
@@ -41,16 +41,16 @@ const AboutSide = (props) => {
             </p>
           </span>
         ) : (
-          <button onClick={() => setFaq(true)}>
-            FAQ <span>˅</span>
+          <button >
+            FAQ <span></span>
           </button>
         )}
       </div>
       <div className="row">
         {rules ? (
           <span>
-            <button onClick={() => setRules(false)}>
-              Правила <span>˄</span>
+            <button >
+              Правила <span></span>
             </button>
             <p>
               Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
@@ -60,8 +60,8 @@ const AboutSide = (props) => {
             </p>
           </span>
         ) : (
-          <button onClick={() => setRules(true)}>
-            Правила <span>˅</span>
+          <button>
+            Правила <span></span>
           </button>
         )}
       </div>

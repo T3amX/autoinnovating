@@ -1,8 +1,9 @@
+
 import axios from "axios";
 
 const instance = axios.create({
   withCredentials: true,
-  baseURL: process.env.APP_URL,
+  baseURL: "http://localhost:3000",
 });
 
 export const authAPI = {
@@ -92,6 +93,27 @@ export const projectsAPI = {
     return instance.post("/api/v1/categories", text);
   },
 };
+
+export const ideasAPI = {
+  getUnacceptedIdeas() {
+    return instance.get("/api/v1/invites")
+  },
+
+  acceptUnacceptedIdea(idea_id) {
+    return instance.put("/api/v1/invites", {idea_id})
+  },
+
+  createInvite(user_id,idea_id) {
+    return instance.post("/api/v1/invites", {user_id, idea_id})
+  },
+
+  deleteInvite(idea_id,credential_id) {
+    console.log(credential_id)
+    debugger
+    return instance.delete("/api/v1/invites", {headers: {}, data: {idea_id, credential_id}} )
+  }
+
+}
 
 // export const inviteAPI = {
 

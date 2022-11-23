@@ -1,13 +1,19 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import "./FindMore.scss";
 
 const FindMore = (props) => {
 
+  let currentProjectId = useParams().id
+  console.log(currentProjectId)
+
+  const createInvite = (user_id, idea_id) => {
+    props.createInviteThunk(user_id, idea_id)
+  }
+
   if (!props.propsIsLoading) {
-    console.log(props.usersData)
+
     let allUsers = props.usersData.map((d) => {
-      console.log(d.id)
       return (
         <div className="col-sm-4 result_user_block">
           <div className="row">
@@ -22,17 +28,19 @@ const FindMore = (props) => {
             <div className="col-sm">
               <Link to={"/profile/" + d.id}>Профиль</Link>
             </div>
+            <div className="col-sm">
+              <button onClick={() => createInvite(d.id, currentProjectId)}>Пригласить</button>
+            </div>
           </div>
         </div>
       );
     });
 
-    console.log(allUsers)
     return (
       <div className="row find_more">
         <div className="row">
           <div className="col-sm">
-            <h1>Поиск участников в команду/проект :</h1>
+            <h1>Поиск участников в проект :</h1>
           </div>
         </div>
 

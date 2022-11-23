@@ -41,7 +41,7 @@ const App = () => {
             <Route path="register" element={<RegisterContainer />} />
             <Route path="project/:id" element={<ProjectContentContainer />} />
             <Route path="project/:id/project_editor" element={<ProjectEditorContainer />} />
-            <Route path="find_more" element={<FindMoreContainer />} />
+            <Route path="project/:id/find_more" element={<FindMoreContainer />} />
             <Route path="team/:id" element={<TeamContent />} />
             <Route path="team/:id/team_editor" element={<TeamEditor />} />
             <Route path="profile/:id" element={<ProfileContentContainer />} />
@@ -54,7 +54,9 @@ const App = () => {
             <Route path="admin" element={<AdminContainer />} />
 
           </Routes>
+          
         </div>
+        
       </div>
       <Footer />
     </div>

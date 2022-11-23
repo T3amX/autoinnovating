@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { connect } from "react-redux";
 import { compose } from "redux";
+import { createInviteThunk } from "../../store/authReducer";
 import { getAllUserDataThunk, getUserForSearchThunk, setUserDataThunk } from "../../store/userReducer";
 import FindMore from "./FindMore";
 
@@ -14,7 +15,7 @@ const FindMoreContainer = (props) => {
   }, []);
 
   return (
-    <FindMore usersData={props.usersData} propsIsLoading={propsIsLoading} />
+    <FindMore createInviteThunk={props.createInviteThunk} usersData={props.usersData} propsIsLoading={propsIsLoading} />
   );
 };
 
@@ -26,5 +27,5 @@ let mapStateToProps = (state) => {
 
 
 export default compose(
-  connect(mapStateToProps, { setUserDataThunk, getUserForSearchThunk })
+  connect(mapStateToProps, { setUserDataThunk, getUserForSearchThunk, createInviteThunk })
 )(FindMoreContainer);

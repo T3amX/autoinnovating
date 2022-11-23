@@ -3,8 +3,8 @@ html[data-theme="dark"] {
   & .footer {
     position: absolute;
     bottom: 0;
-    left: 0;
-    width: 100%;
+    // left: 0;
+    // width: 100%;
     background-color: #fff;
 
     & .footer_content {
@@ -48,3 +48,4 @@ html[data-theme="dark"] {
     }
   }
 }
+

@@ -22,7 +22,7 @@ const ProfileContent = (props) => {
 
   if (!props.propsIsLoading) {
     let myIdeasEmlements = props.projects.map((e) => {
-      if (e.credential_id == props.id && e.is_project == false) {
+      if (e.credential_id == pageProfileId && e.is_project == false) {
         return (
           <Link to={"/project/" + e.id}>
             <div className="row my_ideas_item align-items-center">
@@ -31,13 +31,35 @@ const ProfileContent = (props) => {
                   <span>{e.title}</span>
                 </div>
                 <div className="row">
-                  <span>{FindIndexById(props.categories, e.category_id).name}</span>
+                  <span>
+                    {FindIndexById(props.categories, e.category_id).name}
+                  </span>
                 </div>
               </div>
             </div>
           </Link>
         );
       }
+    });
+
+    let myUnacceptedIdeas = props.allUnacceptedIdeas.map((e) => {
+      return (
+        <li className="invite_block_item">
+          Инвайт {e.idea_id}{" "}
+          <button
+            onClick={() => props.acceptUnacceptedIdeaThunk(e.idea_id)}
+            className="yes"
+          >
+            ✓
+          </button>
+          <button
+            className="no"
+            onClick={() => props.deleteInviteThunk(e.idea_id, e.credential_id)}
+          >
+            ×
+          </button>
+        </li>
+      );
     });
 
     let myProjectsEmlements = props.projects.map((e) => {
@@ -52,9 +74,7 @@ const ProfileContent = (props) => {
                 <div className="row">
                   <span className="my_projects_item_desc">
                     Категория :
-                    {
-                      FindIndexById(props.categories, e.category_id).name
-                    }
+                    {FindIndexById(props.categories, e.category_id).name}
                   </span>
                 </div>
               </div>
@@ -67,11 +87,15 @@ const ProfileContent = (props) => {
     return (
       <div className="row profile">
         <div className="col-sm-7">
-          <div className="row">
-            <div className="col-sm">
-              <h1>{props.login}</h1>
+          {pageProfileId == props.currentUserId ? (
+            <div className="row">
+              <div className="col-sm">
+                <h1>{props.login}</h1>
+              </div>
             </div>
-          </div>
+          ) : (
+            <span></span>
+          )}
           <div className="row">
             <div className="col-sm">
               <ul className="profile_data_list">
@@ -127,27 +151,35 @@ const ProfileContent = (props) => {
           <div className="row my_projects_ideas">
             <div className="col-sm my_projects">
               <h5>Мои проекты: </h5>
-              <div className="row my_projects_item">
-                <div className="col-sm">
-                  {props.id === props.currentUserId ? (
+              {pageProfileId == props.currentUserId ? (
+                <div className="row my_projects_item">
+                  <div className="col-sm">
                     <Link className="new_button" to="/project/create_new">
                       Создать проект
                     </Link>
-                  ) : (
-                    <span></span>
-                  )}
+                  </div>
                 </div>
-              </div>
-
+              ) : (
+                <span></span>
+              )}
               {myProjectsEmlements}
             </div>
 
             <div className="col-sm my_ideas">
               <div className="row">
                 <h5>Мои идеи: </h5>
-
+                {props.currentUserId == pageProfileId ? (
+                  <div className="row my_projects_item">
+                    <div className="col-sm">
+                      <Link className="new_button" to="/project/create_new">
+                        Создать идею
+                      </Link>
+                    </div>
+                  </div>
+                ) : (
+                  <span></span>
+                )}
                 {myIdeasEmlements}
-
               </div>
             </div>
           </div>
@@ -187,9 +219,21 @@ const ProfileContent = (props) => {
                 </ul>
               </div>
             </div>
+            {props.currentUserId == pageProfileId ? (
+              <div className="row invite_block">
+                <div className="col-sm">
+                  <ul>
+                    <li className="invite_block_header">Мои инвайты :</li>
+                    {myUnacceptedIdeas}
+                  </ul>
+                </div>
+              </div>
+            ) : (
+              <span></span>
+            )}
             <div className="row">
               <div className="col-sm">
-                {props.id == pageProfileId ? (
+                {props.currentUserId == pageProfileId ? (
                   <Link className="edit_button" to="./profile_editor">
                     Редактировать анкету
                   </Link>
@@ -198,7 +242,7 @@ const ProfileContent = (props) => {
                 )}
               </div>
             </div>
-            {props.id == pageProfileId && props.isAdmin && (
+            {props.currentUserId == pageProfileId && props.isAdmin && (
               <div className="row admin_button">
                 <div className="col-sm">
                   <Link className="" to="/admin">

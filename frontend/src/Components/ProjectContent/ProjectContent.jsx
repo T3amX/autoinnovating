@@ -5,6 +5,8 @@ import "./ProjectContent.scss";
 
 const ProjectContent = (props) => {
 
+  console.log(props.currentProject)
+
   const FindIndexById = (arr, id) => {
     return arr.filter((el) => {
       return el.id === id;
@@ -71,7 +73,7 @@ const ProjectContent = (props) => {
         </div>
 
         <div className="row project_profile">
-          {teamElements == [] ? (
+          {teamElements != [] ? (
             teamElements
           ) : (
             <div className=" col-sm-3 project_profile_item">
@@ -83,7 +85,7 @@ const ProjectContent = (props) => {
         {props.id === props.currentProject.credential_id && (
           <div className="row more_action">
             <div className="col-sm">
-              <Link to="/find_more">Найти участников</Link>
+              <Link to={'./find_more'}>Найти участников</Link>
             </div>
             <div className="col-sm">
               <Link to="./project_editor">Редактировать проект</Link>

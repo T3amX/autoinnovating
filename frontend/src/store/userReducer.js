@@ -1,4 +1,4 @@
-import { userAPI, authAPI } from "../api/api";
+import { userAPI, authAPI, ideasAPI } from "../api/api";
 
 const GET_USER_DATA = "AutoInnovating/user/GET_USER_DATA";
 const GET_ALL_USERS_DATA = "AutoInnovating/user/GET_ALL_USERS_DATA";
@@ -77,5 +77,7 @@ export const getUserForSearchThunk = () => {
     dispatch(getUserForSearch(response.data.lines));
   };
 };
+
+
 
 export default userReducer;

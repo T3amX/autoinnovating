@@ -3,7 +3,12 @@ import ProfileContent from "./ProfileContent";
 import { connect } from "react-redux";
 import { compose } from "redux";
 import { setUserDataThunk } from "../../store/userReducer";
-import { getDataThunk } from "../../store/authReducer";
+import {
+  acceptUnacceptedIdeaThunk,
+  deleteInviteThunk,
+  getDataThunk,
+  getUnacceptedIdeasThunk,
+} from "../../store/authReducer";
 import {
   getAllCategoriesThunk,
   getAllProjectsThunk,
@@ -13,11 +18,11 @@ import { useNavigate, useParams } from "react-router-dom";
 const ProfileContentContainer = (props) => {
   let [propsIsLoading, setPropsIsLoading] = useState(true);
 
-  const params = useParams()
-
+  const params = useParams();
 
   useEffect(() => {
     props.getAllCategoriesThunk().then(() => {
+      props.getUnacceptedIdeasThunk();
       props.getAllProjectsThunk();
       props.getDataThunk(params.id);
       props.setUserDataThunk(params.id).then(() => {
@@ -28,8 +33,10 @@ const ProfileContentContainer = (props) => {
 
   return (
     <ProfileContent
-    currentUserId={props.currentUserId}
-    id={params.id}
+      acceptUnacceptedIdeaThunk={props.acceptUnacceptedIdeaThunk}
+      allUnacceptedIdeas={props.allUnacceptedIdeas}
+      currentUserId={props.currentUserId}
+      id={params.id}
       isAuth={props.isAuth}
       isAdmin={props.isAdmin}
       categories={props.categories}
@@ -38,13 +45,14 @@ const ProfileContentContainer = (props) => {
       login={props.login}
       email={props.email}
       userData={props.userData}
+      deleteInviteThunk={props.deleteInviteThunk}
     />
   );
 };
 
 let mapStateToProps = (state) => {
-
   return {
+    allUnacceptedIdeas: state.auth.allUnacceptedIdeas,
     currentUserId: state.auth.id,
     isAuth: state.auth.isAuth,
     isAdmin: state.auth.isAdmin,
@@ -56,12 +64,14 @@ let mapStateToProps = (state) => {
   };
 };
 
-
 export default compose(
   connect(mapStateToProps, {
     setUserDataThunk,
     getDataThunk,
     getAllProjectsThunk,
     getAllCategoriesThunk,
+    getUnacceptedIdeasThunk,
+    acceptUnacceptedIdeaThunk,
+    deleteInviteThunk,
   })
 )(ProfileContentContainer);

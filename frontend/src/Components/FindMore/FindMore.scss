@@ -58,6 +58,19 @@ html[data-theme="dark"] {
         font-style: italic;
       }
 
+      & button {
+        outline: none;
+        border: none;
+        background: none;
+        font-weight: bold;
+        font-size: 14px;
+
+        &:hover {
+          transition: .1s;
+          color: green;
+        }
+      }
+
       & a {
         text-decoration: none;
         color: #000;

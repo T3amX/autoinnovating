@@ -5,8 +5,6 @@ import "./Header.scss";
 
 // ASSETS
 import pageLogo from "./../../assets/img/logo1.png";
-import tsd from "./../../assets/img/theme_switcher_dark.png";
-import tsl from "./../../assets/img/theme_switcher_light.png";
 
 // HOOKS
 import { useTheme } from "../../hooks/useTheme";
@@ -48,7 +46,7 @@ const Header = (props) => {
         <div className="col-sm-2 login">
           {props.isAuth ? (
             <span>
-              <Link to={"/profile/" + props.id}>Профиль</Link> |{" "}
+              <Link to={"/profile/" + props.id}>Профиль</Link>
               <span className="logout" onClick={() => props.letLogout()}>
                 Выход
               </span>
