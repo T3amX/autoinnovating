@@ -22,17 +22,20 @@ const ProfileContentContainer = (props) => {
 
   useEffect(() => {
     props.getAllCategoriesThunk().then(() => {
-      props.getUnacceptedIdeasThunk();
-      props.getAllProjectsThunk();
-      props.getDataThunk(params.id);
-      props.setUserDataThunk(params.id).then(() => {
-        setPropsIsLoading(false);
+      props.getUnacceptedIdeasThunk().then(() => {
+        props.getAllProjectsThunk();
+        props.getDataThunk(params.id);
+        props.setUserDataThunk(params.id).then(() => {
+          setPropsIsLoading(false);
+        });
       });
     });
   }, [params.id]);
 
   return (
     <ProfileContent
+      unacceptedProjects={props.unacceptedProjects}
+      allUnacceptedIdeasInfo={props.allUnacceptedIdeasInfo}
       acceptUnacceptedIdeaThunk={props.acceptUnacceptedIdeaThunk}
       allUnacceptedIdeas={props.allUnacceptedIdeas}
       currentUserId={props.currentUserId}
@@ -52,6 +55,8 @@ const ProfileContentContainer = (props) => {
 
 let mapStateToProps = (state) => {
   return {
+    unacceptedProjects: state.projects.unacceptedProjects,
+    allUnacceptedIdeasInfo: state.auth.allUnacceptedIdeasInfo,
     allUnacceptedIdeas: state.auth.allUnacceptedIdeas,
     currentUserId: state.auth.id,
     isAuth: state.auth.isAuth,
@@ -61,6 +66,7 @@ let mapStateToProps = (state) => {
     userData: state.user.userData,
     login: state.auth.login,
     email: state.auth.email,
+    currentProject: state.projects.currentProject,
   };
 };
 

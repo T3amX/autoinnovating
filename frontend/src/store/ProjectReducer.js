@@ -13,6 +13,7 @@ let initialState = {
   offset: 1,
   limit: 6,
   currentProject: null,
+  unacceptedProjects: [],
 };
 
 const projectsReducer = (state = initialState, action) => {
@@ -30,9 +31,12 @@ const projectsReducer = (state = initialState, action) => {
       };
     }
     case GET_SINGLE_PROJECT: {
+      let temp = state.unacceptedProjects.concat(action.idea)
+
       return {
         ...state,
         currentProject: { ...action.idea },
+        unacceptedProjects: [...temp],
       };
     }
     case GET_ALL_PARTICIPANTS: {
@@ -126,7 +130,6 @@ export const getSingleProjectThunk = (id) => {
       return config;
     };
     let authResponse = await authAPI.setLoginData(authInterceptor);
-
     dispatch(getSingleProjectAction(response.data.idea));
   };
 };

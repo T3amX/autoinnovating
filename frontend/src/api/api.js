@@ -108,8 +108,6 @@ export const ideasAPI = {
   },
 
   deleteInvite(idea_id,credential_id) {
-    console.log(credential_id)
-    debugger
     return instance.delete("/api/v1/invites", {headers: {}, data: {idea_id, credential_id}} )
   }
 

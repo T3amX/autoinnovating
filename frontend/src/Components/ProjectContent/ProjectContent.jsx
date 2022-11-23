@@ -5,7 +5,6 @@ import "./ProjectContent.scss";
 
 const ProjectContent = (props) => {
 
-  console.log(props.currentProject)
 
   const FindIndexById = (arr, id) => {
     return arr.filter((el) => {

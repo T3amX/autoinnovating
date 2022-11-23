@@ -5,7 +5,6 @@ import "./FindMore.scss";
 const FindMore = (props) => {
 
   let currentProjectId = useParams().id
-  console.log(currentProjectId)
 
   const createInvite = (user_id, idea_id) => {
     props.createInviteThunk(user_id, idea_id)

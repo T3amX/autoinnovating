@@ -1,5 +1,6 @@
-import { authAPI, ideasAPI } from "../api/api";
+import { authAPI, ideasAPI, projectsAPI } from "../api/api";
 import jwtDecode from "jwt-decode";
+import { getSingleProjectThunk } from "./ProjectReducer";
 
 const SET_AUTH_DATA = "AutoInnovating/auth/SET_AUTH_DATA";
 const SET_AUTH_USER_DATA = "AutoInnovating/auth/SET_AUTH_USER_DATA";
@@ -7,9 +8,10 @@ const GET_ALL_USERS = "AutoInnovating/auth/GET_ALL_USERS";
 const BAN_INFO = "AutoInnovating/auth/BAN_INFO";
 const LOGOUT = "AutoInnovating/auth/LOGOUT";
 const DELETE_USER = "AutoInnovating/auth/DELETE_USER";
-const UPDATE_USERS_DATA = "AutoInnovating/auth/DELETE_USER"
-const GET_ALL_UNACCEPTED_IDEAS = 'AutoInnovating/auth/GET_ALL_UNACCEPTED_IDEAS'
-const ACCEPT_IDEA = 'AutoInnovating/auth/ACCEPT_IDEA'
+const UPDATE_USERS_DATA = "AutoInnovating/auth/DELETE_USER";
+const GET_ALL_UNACCEPTED_IDEAS = "AutoInnovating/auth/GET_ALL_UNACCEPTED_IDEAS";
+const ACCEPT_IDEA = "AutoInnovating/auth/ACCEPT_IDEA";
+const GET_TITLE_FOR_UNACCEPTED_IDEA = 'AutoInnovating/auth/GET_TITLE_FOR_UNACCEPTED_IDEA'
 
 let initialState = {
   isAuth: false,
@@ -20,6 +22,7 @@ let initialState = {
   allUsersData: [],
   banTrigger: "",
   allUnacceptedIdeas: [],
+  allUnacceptedIdeasInfo: []
 };
 
 const FindIndexById = (arr, id) => {
@@ -72,7 +75,10 @@ const loginReducer = (state = initialState, action) => {
     }
     case DELETE_USER: {
       let temp = [...state.allUsersData];
-      temp[FindIndexById(temp, action.userId)].splice(FindIndexById(temp, action.userId), 1)
+      temp[FindIndexById(temp, action.userId)].splice(
+        FindIndexById(temp, action.userId),
+        1
+      );
       return {
         ...state,
         allUsersData: [...temp],
@@ -93,17 +99,41 @@ const loginReducer = (state = initialState, action) => {
     case GET_ALL_UNACCEPTED_IDEAS: {
       return {
         ...state,
-        allUnacceptedIdeas: [...action.lines]
-      }
+        allUnacceptedIdeas: [...action.lines],
+      };
     }
     case ACCEPT_IDEA: {
-      debugger
-      let temp = state.allUnacceptedIdeas.filter(e => e.id != action.idea_id)
+      let temp = state.allUnacceptedIdeas.filter((e) => e.id != action.idea_id);
+      
       return {
         ...state,
-        allUnacceptedIdeas: [...temp]
+        allUnacceptedIdeas: [...temp],
+      };
+    }
+    case GET_TITLE_FOR_UNACCEPTED_IDEA: {
+      let temp = state.allUnacceptedIdeasInfo.concat([action.idea])
+      if (state.allUnacceptedIdeasInfo.length === 0) {
+        return {
+          ...state,
+          allUnacceptedIdeasInfo: [...temp]
+        }
+      } else {
+        let incl = false
+        for (let i=0; i< state.allUnacceptedIdeasInfo.length; i++) {
+          if (state.allUnacceptedIdeasInfo[i].id === action.idea.id) {
+            incl = true
+          }
+        }
+        if (incl == false) {
+          return {
+            ...state,
+            allUnacceptedIdeasInfo: [...temp]
+          }
+        }
+        
       }
     }
+    
     default:
       return state;
   }
@@ -152,22 +182,31 @@ export const updateUsersDataAction = (usersId, newData) => {
     type: UPDATE_USERS_DATA,
     usersId,
     newData,
-  }
-}
+  };
+};
 
 export const getUnacceptedIdeasAction = (lines) => {
   return {
     type: GET_ALL_UNACCEPTED_IDEAS,
-    lines
-  }
-}
+    lines,
+  };
+};
 
 export const acceptUnacceptedIdeaAction = (idea_id) => {
-return {
-  type: ACCEPT_IDEA,
-  idea_id
-}
-}
+  return {
+    type: ACCEPT_IDEA,
+    idea_id,
+  };
+};
+
+export const getInfoAboutUnacceptedIdeaAction = (idea) => {
+
+  return {
+    type: GET_TITLE_FOR_UNACCEPTED_IDEA,
+    idea,
+  };
+};
+
 
 
 // THUNKS
@@ -228,7 +267,7 @@ export const updateUsersDataThunk = (userId, newData) => {
     };
     let authResponse = await authAPI.setLoginData(authInterceptor);
 
-    dispatch(updateUsersDataAction(userId, newData))
+    dispatch(updateUsersDataAction(userId, newData));
   };
 };
 
@@ -260,6 +299,7 @@ export const banunbanUserThunk = (userId) => {
 };
 
 export const getUnacceptedIdeasThunk = () => {
+
   return async (dispatch) => {
     let response = await ideasAPI.getUnacceptedIdeas();
 
@@ -269,13 +309,25 @@ export const getUnacceptedIdeasThunk = () => {
     };
     let authResponse = await authAPI.setLoginData(authInterceptor);
 
+
+
+    let ids = response.data.lines.filter(e => {
+      return e.idea_id;
+    });
+
+    for (let i = 0; i < response.data.lines.length; i++) {
+      let anotherResp = await projectsAPI.getSingleProject(ids[i].idea_id)
+      dispatch(getInfoAboutUnacceptedIdeaAction(anotherResp.data.idea))
+      // getTitleForUnacceptedIdeaThunk(ids[i].idea_id);
+    }
+
     dispatch(getUnacceptedIdeasAction(response.data.lines));
-  }
-}
+  };
+};
 
 export const acceptUnacceptedIdeaThunk = (idea_id) => {
   return async (dispatch) => {
-    let response = await ideasAPI.acceptUnacceptedIdea(idea_id)
+    let response = await ideasAPI.acceptUnacceptedIdea(idea_id);
 
     const authInterceptor = (config) => {
       config.headers.authorization = `Bearer ${response.data.token}`;
@@ -283,14 +335,14 @@ export const acceptUnacceptedIdeaThunk = (idea_id) => {
     };
     let authResponse = await authAPI.setLoginData(authInterceptor);
 
-    dispatch(acceptUnacceptedIdeaAction(idea_id))
-    console.log(response.data.message)
-  }
-}
+    dispatch(acceptUnacceptedIdeaAction(idea_id));
+    console.log(response.data.message);
+  };
+};
 
 export const createInviteThunk = (user_id, idea_id) => {
   return async (dispatch) => {
-    let response = await ideasAPI.createInvite(user_id,idea_id)
+    let response = await ideasAPI.createInvite(user_id, idea_id);
 
     const authInterceptor = (config) => {
       config.headers.authorization = `Bearer ${response.data.token}`;
@@ -298,13 +350,13 @@ export const createInviteThunk = (user_id, idea_id) => {
     };
     let authResponse = await authAPI.setLoginData(authInterceptor);
 
-    console.log(response.data.message)
-  }
-}
+    console.log(response.data.message);
+  };
+};
 
-export const deleteInviteThunk = (idea_id,credential_id) => {
+export const deleteInviteThunk = (idea_id, credential_id) => {
   return async (dispatch) => {
-    let response = await ideasAPI.deleteInvite(idea_id,credential_id)
+    let response = await ideasAPI.deleteInvite(idea_id, credential_id);
 
     const authInterceptor = (config) => {
       config.headers.authorization = `Bearer ${response.data.token}`;
@@ -312,8 +364,10 @@ export const deleteInviteThunk = (idea_id,credential_id) => {
     };
     let authResponse = await authAPI.setLoginData(authInterceptor);
 
-    console.log(response.data.deleted)
-  }
-}
+    // dispatch(deleteInviteAction(idea_id))
+
+    console.log(response.data.deleted);
+  };
+};
 
 export default loginReducer;

@@ -230,6 +230,17 @@ html[data-theme="dark"] {
       }
       & .invite_block_item {
 
+        & a {
+          color: #000;
+          text-decoration: none;
+          margin-right: 75px;
+          &:hover {
+            transition: .1s;
+            display: inline-block;
+            transform: scale(1.1);
+          }
+        }
+
         & button {
           font-size: 20px;
           font-weight: bold;

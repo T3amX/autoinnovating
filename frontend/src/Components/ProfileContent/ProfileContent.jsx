@@ -43,9 +43,13 @@ const ProfileContent = (props) => {
     });
 
     let myUnacceptedIdeas = props.allUnacceptedIdeas.map((e) => {
+      let currentTitle = props.allUnacceptedIdeasInfo.filter(
+        (i) => i.id == e.idea_id
+      );
+
       return (
         <li className="invite_block_item">
-          Инвайт {e.idea_id}{" "}
+          <Link to={"/project/" + e.idea_id}>{currentTitle[0].title}</Link>{" "}
           <button
             onClick={() => props.acceptUnacceptedIdeaThunk(e.idea_id)}
             className="yes"
