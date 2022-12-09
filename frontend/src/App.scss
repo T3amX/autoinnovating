@@ -37,9 +37,66 @@ html[data-theme="light"] {
   }
 }
 
+@media screen and (max-width: 1400px) {
+  html[data-theme="light"] {
+    & .app {
+      & .profile {
+        padding-top: 20px;
+        & .redact {
+          & .admin_button {
+            & a {
+              font-size: 20px;
+            }
+          }
+          & .edit_button {
+            font-size: 20px;
+          }
+        }
+      }
+    }
+  }
+  html[data-theme="dark"] {
+    & .app {
+      & .profile {
+        padding-top: 20px;
+        & .redact {
+          & .admin_button {
+            & a {
+              font-size: 20px;
+            }
+          }
+          & .edit_button {
+            font-size: 20px;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1620px) {
+  html[data-theme="dark"] {
+    & .app {
+      & .all_projects {
+        & .project_row {
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+  html[data-theme="light"] {
+    & .app {
+      & .all_projects {
+        & .project_row {
+          margin: 0 auto;
+        }
+      }
+    }
+  }
+}
+
 @media screen and (max-height: 945px) {
   html[data-theme="dark"] {
-
     & .body {
       background-size: cover;
     }
@@ -52,7 +109,6 @@ html[data-theme="light"] {
     }
   }
   html[data-theme="light"] {
-
     & .body {
       background-size: cover;
     }
@@ -67,14 +123,11 @@ html[data-theme="light"] {
 }
 
 @media screen and (max-width: 1280px) {
-  
   html[data-theme="dark"] {
-
     & .app {
-
-      & .footer {
-        position: relative;
-      }
+      // & .footer {
+      //   position: relative;
+      // }
 
       & .about_content {
         padding-top: 50px;
@@ -113,6 +166,11 @@ html[data-theme="light"] {
         }
       }
 
+      & .footer {
+        position: relative;
+        margin-top: 80vh;
+      }
+
       & .profile {
         padding-top: 20px;
         & .redact {
@@ -124,9 +182,7 @@ html[data-theme="light"] {
           & .edit_button {
             font-size: 20px;
           }
-  
         }
-        
       }
 
       & .header {
