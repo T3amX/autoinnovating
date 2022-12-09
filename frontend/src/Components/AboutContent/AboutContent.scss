@@ -1,7 +1,14 @@
 // THEME DARK
 html[data-theme="dark"] {
   & .about_content {
-    padding-top: 160px;
+    padding-top: 100px;
   }
 }
+
+html[data-theme="light"] {
+  & .about_content {
+    padding-top: 100px;
+  }
+}
+
 

@@ -18,7 +18,7 @@ const Footer = (props) => {
             <a href="#">Лента</a>
             <a href="#">Помощь</a>
             <a href="#">Обратная связь</a>
-            <a href="#">Меры поддержки</a>
+            <Link to='/support_measure'>Меры поддержки</Link>
           </div>
           <div className="col-sm language">
             <span>

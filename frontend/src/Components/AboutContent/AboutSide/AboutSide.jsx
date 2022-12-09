@@ -1,28 +1,30 @@
 import React, { useState } from "react";
-import './AboutSide.scss';
+import "./AboutSide.scss";
+import {Link} from 'react-router-dom'
+
 
 const AboutSide = (props) => {
-  let [help, ] = useState(true);
-  let [faq, ] = useState(true);
-  let [rules,] = useState(true);
+  let [help] = useState(true);
+  let [faq] = useState(true);
+  let [rules] = useState(true);
 
   return (
     <div className="col-sm about_side">
       <div className="row">
         {help ? (
           <span>
-            <button >
+            <button className="span-button">
               Помощь <span></span>
             </button>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
-              blanditiis rem iure expedita consequatur asperiores iste sunt, sit
-              illum voluptates laboriosam, facere repellendus impedit quae
-              reiciendis, voluptatem voluptate et. Voluptas.
+              Но повышение уровня гражданского сознания предопределяет высокую
+              востребованность вывода текущих активов. Прежде всего, выбранный
+              нами инновационный путь позволяет выполнить важные задания по
+              разработке первоочередных требований.
             </p>
           </span>
         ) : (
-          <button >
+          <button>
             Помощь <span></span>
           </button>
         )}
@@ -30,18 +32,18 @@ const AboutSide = (props) => {
       <div className="row">
         {faq ? (
           <span>
-            <button >
+            <button className="span-button">
               FAQ <span></span>
             </button>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
-              blanditiis rem iure expedita consequatur asperiores iste sunt, sit
-              illum voluptates laboriosam, facere repellendus impedit quae
-              reiciendis, voluptatem voluptate et. Voluptas.
+              Также как курс на социально-ориентированный национальный проект
+              позволяет оценить значение благоприятных перспектив. Повседневная
+              практика показывает, что консультация с широким активом прекрасно
+              подходит для реализации анализа существующих паттернов поведения.
             </p>
           </span>
         ) : (
-          <button >
+          <button>
             FAQ <span></span>
           </button>
         )}
@@ -49,14 +51,15 @@ const AboutSide = (props) => {
       <div className="row">
         {rules ? (
           <span>
-            <button >
+            <button className="span-button">
               Правила <span></span>
             </button>
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
-              blanditiis rem iure expedita consequatur asperiores iste sunt, sit
-              illum voluptates laboriosam, facere repellendus impedit quae
-              reiciendis, voluptatem voluptate et. Voluptas.
+              Разнообразный и богатый опыт говорит нам, что семантический разбор
+              внешних противодействий напрямую зависит от поэтапного и
+              последовательного развития общества. Современные технологии
+              достигли такого уровня, что высококачественный прототип будущего
+              проекта играет определяющее значение для вывода текущих активов.
             </p>
           </span>
         ) : (
@@ -66,13 +69,9 @@ const AboutSide = (props) => {
         )}
       </div>
       <div className="row learn">
-        <h4>Обучение</h4>
-        <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. Saepe
-          assumenda doloremque officiis dignissimos ad nostrum obcaecati.
-          Perferendis atque amet qui. Quidem cumque eaque facilis maiores autem
-          reprehenderit dicta deleniti accusamus?
-        </p>
+        <div className="col-sm">
+          <a target='_blank' href="https://clck.ru/32u3vP">Обучение</a>
+        </div>
       </div>
     </div>
   );

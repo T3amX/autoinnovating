@@ -7,7 +7,7 @@ html[data-theme="dark"] {
 
     & .menu_links {
       & a {
-        font-weight: normal;
+        font-weight: 200;
         font-size: 18px;
         color: #fff;
         letter-spacing: 1px;
@@ -15,7 +15,7 @@ html[data-theme="dark"] {
         margin-right: 50px;
 
         &:hover {
-          color: #00ffff;
+          color: #05DEF2;
           transition: 0.1s;
         }
 
@@ -25,15 +25,10 @@ html[data-theme="dark"] {
       }
     }
 
-    & .theme_switcher {
-      & button {
-        outline: none;
-        border: none;
-        background: none;
-
-        & img {
-          width: 16px;
-        }
+    & .theme-handler {
+      width: 35px;
+      &:hover {
+        cursor: pointer;
       }
     }
 
@@ -42,25 +37,93 @@ html[data-theme="dark"] {
 
       & .logout {
         &:hover {
+          color: #05DEF2;
+          transition: .1s;
           cursor: pointer;
         }
       }
 
       & span {
         color: #fff;
-        font-weight: normal;
+        font-weight: 200;
         font-size: 16px;
 
         & a {
           text-decoration: none;
-          font-weight: normal;
-          font-size: 16px;
+          font-weight: 200;
+          font-size: 18px;
           color: #fff;
           letter-spacing: 1px;
 
           &:hover {
             transition: 0.1s;
-            color: #00ffff;
+            color: #05DEF2;
+          }
+        }
+      }
+    }
+  }
+}
+
+html[data-theme="light"] {
+  & .header {
+    & img {
+      width: 100px;
+    }
+
+    & .menu_links {
+      & a {
+        font-weight: 200;
+        font-size: 18px;
+        color: #000;
+        letter-spacing: 1px;
+        text-decoration: none;
+        margin-right: 50px;
+
+        &:hover {
+          color: #05DEF2;
+          transition: 0.1s;
+        }
+
+        &:nth-last-child() {
+          margin-right: 0;
+        }
+      }
+    }
+
+    & .theme-handler {
+      width: 35px;
+      &:hover {
+        cursor: pointer;
+      }
+    }
+
+    & .login {
+      text-align: right;
+
+      & .logout {
+        &:hover {
+          color: #05DEF2;
+          transition: .1s;
+          cursor: pointer;
+        }
+      }
+
+      & span {
+        color: #000;
+        font-weight: 200;
+        font-size: 18px;
+
+        & a {
+          text-decoration: none;
+          font-weight: 200;
+          font-size: 18px;
+          color: #000;
+          letter-spacing: 1px;
+
+          &:hover {
+            transition: 0.1s;
+            color: #05DEF2;
           }
         }
       }

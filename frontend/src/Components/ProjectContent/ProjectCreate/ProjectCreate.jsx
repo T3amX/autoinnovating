@@ -40,7 +40,7 @@ const ProjectCreate = (props) => {
                 <div className="col-sm">
                   <input
                     {...register("title", {required: true})}
-                    placeholder="продуктнейм"
+                    placeholder="Название инновации"
                     className="text_input"
                     type="text"
                   />

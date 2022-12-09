@@ -7,7 +7,7 @@ import Login from "./Login";
 
 
 const LoginContainer = (props) => {
-  return <Login setAuth={props.setAuthThunk} />;
+  return <Login setAuth={props.setAuthThunk} setAuthFromStorageThunk={props.setAuthFromStorageThunk} />;
 };
 
 let mapStateToProps = (state) => {
@@ -15,6 +15,7 @@ let mapStateToProps = (state) => {
     id: state.auth.id
   };
 };
+
 
 export default compose(connect(mapStateToProps, { setAuthThunk }))(
   LoginContainer

@@ -275,7 +275,12 @@ const ProfileEditor = (props) => {
               </div>
               <div className="row">
                 <div className="col-sm">
-                  <select className="text_input" {...register("sex")} name="sex" id="">
+                  <select
+                    className="text_input"
+                    {...register("sex")}
+                    name="sex"
+                    id=""
+                  >
                     <option value=""></option>
                     <option value="м">Мужской</option>
                     <option value="ж">Женский</option>

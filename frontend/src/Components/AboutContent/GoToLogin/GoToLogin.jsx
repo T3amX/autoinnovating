@@ -21,13 +21,26 @@ const GoToLogin = (props) => {
             </span>
           </div>
           <div className="row">
+            <Link className="link-button" to="/register">
+              Регистрация
+            </Link>
             <Link to="/login" className="login_button">
               Вход
             </Link>
-            <Link to='/register'>Регистрация</Link>
           </div>
         </div>
       )}
+      <div className="row">
+        <div className="col-sm">
+          <a
+            target="_blank"
+            className="about-project-link"
+            href="https://clck.ru/32u3ss"
+          >
+            Подробнее о проекте
+          </a>
+        </div>
+      </div>
     </div>
   );
 };

@@ -1,4 +1,6 @@
 import { Link, Route, Routes, useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import React from "react";
 
 // STYLES
 import "./App.scss";
@@ -20,47 +22,68 @@ import ProjectCreateContainer from "./Components/ProjectContent/ProjectCreate/Pr
 import ProjectContentContainer from "./Components/ProjectContent/ProjectContentContainer";
 import AdminContainer from "./Components/Admin/AdminContainer";
 import FindMoreContainer from "./Components/FindMore/FindMoreContainer";
-
+import SupportMeasure from "./Components/SupportMeasure/SupportMeasure";
 
 // HOOKS
 
 // ASSETS
 
-const App = () => {
+const App = (props) => {
+  let [isFetching, setIsFetching] = useState(true);
 
-  console.log(useParams())
+  useEffect(() => {
+    if (localStorage.getItem("token")) {
+      props.setAuthThunk().then(() => {
+        setIsFetching(false);
+      });
+    } else {
+      setIsFetching(false);
+    }
+  }, []);
 
-  return (
-    <div className="app">
-      <div className="container-fluid">
-        <div className="container">
-          <HeaderContainer />
-          <Routes>
-            <Route path="/" element={<AboutContent />} />
-            <Route path="login" element={<LoginContainer />} />
-            <Route path="register" element={<RegisterContainer />} />
-            <Route path="project/:id" element={<ProjectContentContainer />} />
-            <Route path="project/:id/project_editor" element={<ProjectEditorContainer />} />
-            <Route path="project/:id/find_more" element={<FindMoreContainer />} />
-            <Route path="team/:id" element={<TeamContent />} />
-            <Route path="team/:id/team_editor" element={<TeamEditor />} />
-            <Route path="profile/:id" element={<ProfileContentContainer />} />
-            <Route
-              path="profile/:id/profile_editor"
-              element={<ProfileEditorContainer />}
-            />
-            <Route path="all_projects" element={<AllProjectsContentContainer />} />
-            <Route path="project/create_new" element={<ProjectCreateContainer />} />
-            <Route path="admin" element={<AdminContainer />} />
-
-          </Routes>
-          
+  if (isFetching == false) {
+    return (
+      <div className="app">
+        <div className="container-fluid">
+          <div className="container">
+            <HeaderContainer />
+            <Routes>
+              <Route path="/support_measure" element={<SupportMeasure />} />
+              <Route path="/" element={<AboutContent />} />
+              <Route path="login" element={<LoginContainer />} />
+              <Route path="register" element={<RegisterContainer />} />
+              <Route path="project/:id" element={<ProjectContentContainer />} />
+              <Route
+                path="project/:id/project_editor"
+                element={<ProjectEditorContainer />}
+              />
+              <Route
+                path="project/:id/find_more"
+                element={<FindMoreContainer />}
+              />
+              <Route path="team/:id" element={<TeamContent />} />
+              <Route path="team/:id/team_editor" element={<TeamEditor />} />
+              <Route path="profile/:id" element={<ProfileContentContainer />} />
+              <Route
+                path="profile/:id/profile_editor"
+                element={<ProfileEditorContainer />}
+              />
+              <Route
+                path="all_projects"
+                element={<AllProjectsContentContainer />}
+              />
+              <Route
+                path="project/create_new"
+                element={<ProjectCreateContainer />}
+              />
+              <Route path="admin" element={<AdminContainer />} />
+            </Routes>
+          </div>
         </div>
-        
+        <Footer />
       </div>
-      <Footer />
-    </div>
-  );
+    );
+  }
 };
 
 export default App;

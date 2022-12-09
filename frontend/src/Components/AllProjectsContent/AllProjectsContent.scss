@@ -1,14 +1,17 @@
 html[data-theme="dark"] {
   & .all_projects {
-    & h1 {
-      text-align: center;
+    & .all-projects-h {
       color: #fff;
+      letter-spacing: 3px;
+      font-weight: 300;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      text-align: center;
     }
 
     & .pagination {
       text-align: center;
       color: #fff;
-      
     }
 
     & .selected {
@@ -16,17 +19,47 @@ html[data-theme="dark"] {
     }
 
     & .project_row {
+      margin-left: 15ch;
 
-        margin-left: 15ch;
+      
 
       & .project_profile_item {
-        margin-right: 10px;
+
+
+        & .project_profile_desc {
+          margin-left: 10px;
+          color: #fff;
+        }
+
+        & .project_profile_nick {
+          font-size: 24px;
+        }
+
+        & .project_profile_role {
+          font-size: 16px;
+          font-weight: 200;
+          font-style: italic;
+        }
+
+        margin-right: 25px;
         border-radius: 15px;
         padding: 20px;
-        background-color: #fff;
-        margin-bottom: 25px;
+        background-color: rgba($color: #000000, $alpha: 0.9);
+        margin-bottom: 30px;
+        border: 1px solid #fff;
+        transition: .1s;
+        text-decoration: none;
+        
+
+        &:hover {
+          transition: .1s;
+          transform: scale(1.1);
+          cursor: pointer;
+          border-color: #05DEF2;
+        }
 
         & span {
+          color: #fff;
           font-weight: 500;
           font-size: 18px;
         }
@@ -38,28 +71,131 @@ html[data-theme="dark"] {
         }
 
         & a {
+          letter-spacing: 1px;
+          text-transform: uppercase;
           display: inline-block;
           margin: 0 auto;
-          text-decoration: none;
+          padding-top: 12px;
           text-align: center;
-          width: 210px;
-          border: 2px solid #000;
-          font-weight: medium;
-          color: #000;
-          background-color: #00ffff;
-          font-size: 20px;
-          letter-spacing: 1px;
-          padding: 10px;
+          text-decoration: none;
+          margin-top: 10px;
+          display: inline;
+          font-size: 14px;
+          font-weight: 400;
+          margin-right: 20px;
           outline: none;
-          border-radius: 100px;
+          background: none;
+          color: #fff;
+          width: 270px;
+          height: 50px;
+          border: 2px solid #fff;
+          border-radius: 15px;
 
           &:hover {
-            cursor: pointer;
-            display: inline-block;
-            transform: scale(1.1);
             transition: 0.1s;
-            font-weight: 500;
-            background-color: #00ffff;
+            background-color: #fff;
+            color: #000;
+            border: 2px outset #fff;
+          }
+        }
+      }
+    }
+  }
+}
+
+html[data-theme="light"] {
+  & .all_projects {
+    & .all-projects-h {
+      color: #000;
+      letter-spacing: 3px;
+      font-weight: 300;
+      text-transform: uppercase;
+      margin-bottom: 20px;
+      text-align: center;
+    }
+
+    & .pagination {
+      text-align: center;
+      color: #000;
+    }
+
+    & .selected {
+      font-weight: bold;
+    }
+
+    & .project_row {
+      margin-left: 15ch;
+
+      & .project_profile_item {
+        & .project_profile_nick {
+          font-size: 24px;
+        }
+
+        & .project_profile_role {
+          font-size: 16px;
+          font-weight: 200;
+          font-style: italic;
+        }
+
+        & .project_profile_desc {
+          color: #fff;
+        }
+
+        margin-right: 25px;
+        border-radius: 15px;
+        padding: 20px;
+        background-color: rgba($color: #fff, $alpha: 0.9);
+        margin-bottom: 30px;
+        border: 1px solid #000;
+        text-decoration: none;
+        transition: .1s;
+
+        &:hover {
+          transition: .1s;
+          transform: scale(1.1);
+          cursor: pointer;
+          border-color: #05DEF2;
+        }
+
+        & span {
+          color: #000;
+          font-weight: 500;
+          font-size: 18px;
+        }
+
+        & p {
+          margin-top: 13px;
+          font-weight: medium;
+          color: #000;
+        }
+
+        & a {
+          letter-spacing: 1px;
+          text-transform: uppercase;
+          display: inline-block;
+          margin: 0 auto;
+          padding-top: 12px;
+          text-align: center;
+          text-decoration: none;
+          margin-top: 10px;
+          display: inline;
+          font-size: 14px;
+          font-weight: 400;
+          margin-right: 20px;
+          outline: none;
+          background: none;
+          color: #000;
+          width: 270px;
+          height: 50px;
+          border: 2px solid #000;
+          border-radius: 15px;
+
+          &:hover {
+            transition: 0.1s;
+            background-color: #000;
+            color: #fff;
+            border-color: #000;
+            border: 2px outset #000;
           }
         }
       }

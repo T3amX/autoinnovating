@@ -3,7 +3,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import "./ProfileContent.scss";
 import tg_link from "./../../assets/img/tg_link.png";
 import vk_link from "./../../assets/img/vk_link.png";
-import git_link from "./../../assets/img/git_link.png";
+import git_link_1 from "./../../assets/img/git_link_1.png";
 
 const ProfileContent = (props) => {
   let pageProfileId = useParams().id;
@@ -90,7 +90,7 @@ const ProfileContent = (props) => {
 
     return (
       <div className="row profile">
-        <div className="col-sm-7">
+        <div className="col-sm-8">
           {pageProfileId == props.currentUserId ? (
             <div className="row">
               <div className="col-sm">
@@ -142,7 +142,7 @@ const ProfileContent = (props) => {
               </p>
             </div>
           </div>
-          <div className="row profile_my_team">
+          {/* <div className="row profile_my_team">
             <div className="col-sm">
               <span>
                 Моя команда :{" "}
@@ -151,7 +151,7 @@ const ProfileContent = (props) => {
                 </Link>
               </span>
             </div>
-          </div>
+          </div> */}
           <div className="row my_projects_ideas">
             <div className="col-sm my_projects">
               <h5>Мои проекты: </h5>
@@ -213,7 +213,8 @@ const ProfileContent = (props) => {
                     )}
                   </li>
                   <li>
-                    <img src={git_link} alt="" />{" "}
+                    <img src={git_link_1} alt="" />{" "}
+                    
                     {props.userData.github ? (
                       <Link to="#">{props.userData.github}</Link>
                     ) : (

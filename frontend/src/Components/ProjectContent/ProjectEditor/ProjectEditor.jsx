@@ -49,7 +49,8 @@ const ProjectEditor = (props) => {
       <div className="row project_editor">
         <div className="row">
           <div className="col-sm">
-            <h1>Редактирование проекта : проектнейм</h1>
+            <h1>Редактирование проекта : </h1>
+            <span className="project-title">{props.currentProject.title}</span>
           </div>
         </div>
         <div className="row edit_form">

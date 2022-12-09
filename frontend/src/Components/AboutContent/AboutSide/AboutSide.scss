@@ -1,14 +1,19 @@
 // THEME DARK
 html[data-theme="dark"] {
   & .about_side {
+    text-align: right;
+    margin-top: -5px;
     & p {
+      line-height: 18px;
       margin-left: 10px;
       font-size: 14px;
       font-weight: normal;
       color: #fff;
     }
 
-    & button {
+    & .span-button {
+      font-weight: 400;
+      text-transform: uppercase;
       border: none;
       text-align: left;
       outline: none;
@@ -23,12 +28,84 @@ html[data-theme="dark"] {
       }
     }
 
-    & h4 {
-        margin-top: 85px;
+    & .learn {
+      text-align: right;
+      margin-left: 0;
+      & a {
+        text-decoration: none;
+        text-transform: uppercase;
+        margin-top: 15px;
         font-size: 20px;
-        font-weight: medium;
+        font-weight: 400;
         color: #fff;
+        padding-bottom: 8px;
+        display: inline-block;
+        border-bottom: 2px solid #fff;
+        border-radius: 15px;
+
+        &:hover {
+          transition: .1s;
+          border-color: #05DEF2;
+          color: #05DEF2;
+        }
+      }
+    }
+  }
+}
+
+// THEME LIGHT
+html[data-theme="light"] {
+  & .about_side {
+    // border-radius: 15px;
+    // padding: 20px 10px;
+    // background-color: rgba($color: #fff, $alpha: 0.9);
+    text-align: right;
+    margin-top: -5px;
+    & p {
+      line-height: 18px;
+      margin-left: 10px;
+      font-size: 14px;
+      font-weight: normal;
+      color: #000;
     }
 
+    & .span-button {
+      font-weight: 400;
+      text-transform: uppercase;
+      border: none;
+      text-align: left;
+      outline: none;
+      background: none;
+      color: #000;
+      font-size: 20px;
+      font-weight: medium;
+      letter-spacing: 1px;
+
+      & span {
+        font-size: 16px;
+      }
+    }
+
+    & .learn {
+      margin-left: 0;
+      & a {
+        text-decoration: none;
+        text-transform: uppercase;
+        margin-top: 15px;
+        font-size: 20px;
+        font-weight: 400;
+        color: #000;
+        padding-bottom: 8px;
+        display: inline-block;
+        border-bottom: 2px solid #000;
+        border-radius: 15px;
+
+        &:hover {
+          transition: .1s;
+          border-color: #05DEF2;
+          color: #05DEF2;
+        }
+      }
+    }
   }
 }

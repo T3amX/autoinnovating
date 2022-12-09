@@ -93,18 +93,34 @@ export const createNewProjectThunk = (newProject) => {
 };
 
 export const getAllCategoriesThunk = () => {
-  return async (dispatch) => {
-    let response = await projectsAPI.getAllCategories();
 
-    const authInterceptor = (config) => {
-      config.headers.authorization = `Bearer ${response.data.token}`;
-      return config;
+  if (localStorage.getItem('token')) {
+    return async (dispatch) => {
+      let response = await projectsAPI.getAllCategories();
+  
+      const authInterceptor = (config) => {
+        config.headers.authorization = `Bearer ${localStorage.getItem('token')}`;
+        return config;
+      };
+      let authResponse = await authAPI.setLoginData(authInterceptor);
+  
+      dispatch(getAllCategoriesAction(response.data.lines));
     };
-    let authResponse = await authAPI.setLoginData(authInterceptor);
+  } else {
+    return async (dispatch) => {
+      let response = await projectsAPI.getAllCategories();
+  
+      const authInterceptor = (config) => {
+        config.headers.authorization = `Bearer ${response.data.token}`;
+        return config;
+      };
+      let authResponse = await authAPI.setLoginData(authInterceptor);
+  
+  
+      dispatch(getAllCategoriesAction(response.data.lines));
+    };
+  }
 
-
-    dispatch(getAllCategoriesAction(response.data.lines));
-  };
 };
 
 export const getAllProjectsThunk = () => {
@@ -112,7 +128,7 @@ export const getAllProjectsThunk = () => {
     let response = await projectsAPI.getAllProjects();
 
     const authInterceptor = (config) => {
-      config.headers.authorization = `Bearer ${response.data.token}`;
+      config.headers.authorization = `Bearer ${localStorage.getItem('token') ? localStorage.getItem('token') : response.data.token}`;
       return config;
     };
     let authResponse = await authAPI.setLoginData(authInterceptor);

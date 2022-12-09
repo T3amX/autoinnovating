@@ -6,8 +6,6 @@ import { logout, setAuth } from "../../store/authReducer";
 import { setUserDataThunk } from "../../store/userReducer"
 
 const HeaderContainer = (props) => {
-
-
   return <Header letLogout={props.letLogout} login={props.login} id={props.id} isAuth={props.isAuth} />;
 };
 

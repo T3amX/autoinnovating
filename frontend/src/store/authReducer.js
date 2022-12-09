@@ -12,6 +12,7 @@ const UPDATE_USERS_DATA = "AutoInnovating/auth/DELETE_USER";
 const GET_ALL_UNACCEPTED_IDEAS = "AutoInnovating/auth/GET_ALL_UNACCEPTED_IDEAS";
 const ACCEPT_IDEA = "AutoInnovating/auth/ACCEPT_IDEA";
 const GET_TITLE_FOR_UNACCEPTED_IDEA = 'AutoInnovating/auth/GET_TITLE_FOR_UNACCEPTED_IDEA'
+const SET_AUTH_FROM_STORAGE = 'AutoInnovating/auth/SET_AUTH_FROM_STORAGE'
 
 let initialState = {
   isAuth: false,
@@ -69,6 +70,7 @@ const loginReducer = (state = initialState, action) => {
       };
     }
     case LOGOUT: {
+      localStorage.clear()
       return {
         initialState,
       };
@@ -207,6 +209,18 @@ export const getInfoAboutUnacceptedIdeaAction = (idea) => {
   };
 };
 
+export const setAuthFromStorageAction = (token) => {
+
+  let loginData = jwtDecode(token)
+
+  console.log(loginData)
+
+  return {
+    type: SET_AUTH_DATA,
+    loginData
+  }
+}
+
 
 
 // THUNKS
@@ -218,29 +232,65 @@ export const setRegThunk = (regData) => {
 
 // GET DATA AFTER LOGIN
 export const getDataThunk = (id) => {
-  return async (dispatch) => {
-    let response = await authAPI.getUserData(id);
-    const authInterceptor = (config) => {
-      config.headers.authorization = `Bearer ${response.data.token}`;
-      return config;
+  if (localStorage.getItem('token')) {
+    let tokenData = jwtDecode(localStorage.getItem('token'))
+    return async (dispatch) => {
+      let response = await authAPI.getUserData(tokenData.id);
+      const authInterceptor = (config) => {
+        config.headers.authorization = `Bearer ${localStorage.getItem('token')}`;
+        return config;
+      };
+      let authResponse = await authAPI.setLoginData(authInterceptor);
+      dispatch(setAuthUserData(response.data.user));
     };
-    let authResponse = await authAPI.setLoginData(authInterceptor);
-    dispatch(setAuthUserData(response.data.user));
-  };
+  } else {
+    return async (dispatch) => {
+      let response = await authAPI.getUserData(id);
+      const authInterceptor = (config) => {
+        config.headers.authorization = `Bearer ${response.data.token}`;
+        return config;
+      };
+      let authResponse = await authAPI.setLoginData(authInterceptor);
+      dispatch(setAuthUserData(response.data.user));
+    };
+  }
 };
 
 export const setAuthThunk = (authData) => {
-  return async (dispatch) => {
-    let response = await authAPI.login(authData);
-    const authInterceptor = (config) => {
-      config.headers.authorization = `Bearer ${response.data.token}`;
-      return config;
-    };
-    let authResponse = await authAPI.setLoginData(authInterceptor);
-    if (response.data.token) {
-      dispatch(setAuth(jwtDecode(response.data.token)));
+  if (localStorage.getItem('token')) {
+    authData = {
+      login: localStorage.getItem('login'),
+      password: localStorage.getItem('password')
     }
-  };
+    return async (dispatch) => {
+      let response = await authAPI.login(authData);
+  
+      const authInterceptor = (config) => {
+        config.headers.authorization = `Bearer ${localStorage.getItem('token')}`;
+        return config;
+      };
+      let authResponse = await authAPI.setLoginData(authInterceptor);
+      dispatch(setAuth(jwtDecode(localStorage.getItem('token'))));
+    };
+  } else {
+    return async (dispatch) => {
+      let response = await authAPI.login(authData);
+  
+      const authInterceptor = (config) => {
+        config.headers.authorization = `Bearer ${response.data.token}`;
+        return config;
+      };
+      let authResponse = await authAPI.setLoginData(authInterceptor);
+      
+      if (response.data.token) {
+        localStorage.setItem('token', response.data.token)
+        localStorage.setItem('login', authData.login)
+        localStorage.setItem('password', authData.password)
+        dispatch(setAuth(jwtDecode(response.data.token)));
+      }
+    };
+  }
+  
 };
 
 export const getAllUsersThunk = () => {
@@ -299,12 +349,12 @@ export const banunbanUserThunk = (userId) => {
 };
 
 export const getUnacceptedIdeasThunk = () => {
-
+  
   return async (dispatch) => {
     let response = await ideasAPI.getUnacceptedIdeas();
 
     const authInterceptor = (config) => {
-      config.headers.authorization = `Bearer ${response.data.token}`;
+      config.headers.authorization = `Bearer ${localStorage.getItem('token') ? localStorage.getItem('token') : response.data.token}`;
       return config;
     };
     let authResponse = await authAPI.setLoginData(authInterceptor);

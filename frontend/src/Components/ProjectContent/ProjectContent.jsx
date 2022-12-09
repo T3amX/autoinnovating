@@ -21,7 +21,8 @@ const ProjectContent = (props) => {
 
   let teamElements = props.participants.map((t) => {
     return (
-      <div className="col-sm-3 project_profile_item">
+      <Link className="col-sm-3 project_profile_item" to={"/profile/" + t.id}>
+      <div className="">
         <div className="row">
           <span className="project_profile_nick">{t.nickname}</span>
         </div>
@@ -30,15 +31,11 @@ const ProjectContent = (props) => {
         </div>
         <div className="row">
           <div className="col-sm">
-            <p className="project_profile_desc">{t.info}</p>
+            <p className="project_profile_desc">{t.info ? t.info : 'Информация отсутствует'}</p>
           </div>
         </div>
-        <div className="row">
-          <Link className="project_profile_button" to={"/profile/" + t.id}>
-            Профиль
-          </Link>
-        </div>
       </div>
+      </Link>
     );
   });
 
