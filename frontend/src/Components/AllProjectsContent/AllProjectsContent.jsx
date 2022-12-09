@@ -42,7 +42,7 @@ const AllProjectsContent = (props) => {
   });
 
   if (!props.isAuth) {
-    navigate("/");
+    navigate("/login");
   } else {
     return (
       <div className="row all_projects">

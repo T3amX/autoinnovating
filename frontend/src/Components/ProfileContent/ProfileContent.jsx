@@ -17,7 +17,7 @@ const ProfileContent = (props) => {
   let navigate = useNavigate();
 
   if (!props.isAuth) {
-    navigate("/");
+    navigate("/login");
   }
 
   if (!props.propsIsLoading) {

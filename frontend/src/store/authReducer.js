@@ -70,7 +70,9 @@ const loginReducer = (state = initialState, action) => {
       };
     }
     case LOGOUT: {
-      localStorage.clear()
+      localStorage.removeItem('token')
+      localStorage.removeItem('login')
+      localStorage.removeItem('password')
       return {
         initialState,
       };

@@ -32,6 +32,10 @@ const App = (props) => {
   let [isFetching, setIsFetching] = useState(true);
 
   useEffect(() => {
+    if (!localStorage.getItem('theme')) {
+      localStorage.setItem('theme', 'dark')
+    }
+
     if (localStorage.getItem("token")) {
       props.setAuthThunk().then(() => {
         setIsFetching(false);
